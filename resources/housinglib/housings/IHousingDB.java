@@ -17,7 +17,7 @@ public interface IHousingDB {
      * @param housing The housing to add as a housing Object
      * @throws IllegalArgumentException if the argument is not an object from Housing
      */
-    public void addHousing(Housing housing) throws IllegalArgumentException;
+    public void create(Housing housing) throws IllegalArgumentException;
 
     // "R" operations
 

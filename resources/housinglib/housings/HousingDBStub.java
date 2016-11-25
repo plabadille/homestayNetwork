@@ -55,7 +55,7 @@ public class HousingDBStub implements IHousingDB {
         }
     }
 
-    public void addHousing (Housing housing) {
+    public void create (Housing housing) {
     	if (!exist(housing)) {
     		this.housings.add(housing);
     	} else {

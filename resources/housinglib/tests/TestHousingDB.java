@@ -22,7 +22,7 @@ public class TestHousingDB {
 	@Test
 	public void test_existApartment() {
 		Apartment apartment = new Apartment("France", 80, 4, "truc sur Mer");
-		l.addHousing(apartment);
+		l.create(apartment);
 		assertEquals(true, l.exist(apartment));
 	}
 
@@ -42,14 +42,14 @@ public class TestHousingDB {
 	@Test
 	public void test_existHome() {
 		Home home = new Home("France", 75, 4, "truc  ger sur Lac", 200);
-		l.addHousing(home);
+		l.create(home);
 		assertEquals(true, l.exist(home));
 	}
 
 	@Test
 	public void test_existHomeWithoutGarden() {
 		Home home = new Home("France", 75, 4, "trucge gesur Lac", 0);
-		l.addHousing(home);
+		l.create(home);
 		assertEquals(true, l.exist(home));
 	}
 
@@ -70,8 +70,8 @@ public class TestHousingDB {
 
 	@Test(expected=IllegalArgumentException.class)
 	public void testIllegalArgumentExceptionDoublon() {
-		l.addHousing(new Home("France", 70, 4, "truc sur Megergr", 500));
-		l.addHousing(new Home("France", 70, 4, "truc sur Megergr", 500));
+		l.create(new Home("France", 70, 4, "truc sur Megergr", 500));
+		l.create(new Home("France", 70, 4, "truc sur Megergr", 500));
 	}
 
 	//Tests getAll:
@@ -79,7 +79,7 @@ public class TestHousingDB {
 	@Test
 	public void test_retrieveAllCountHouse() {
 		int countInitHousing = l.getAll().size();
-		l.addHousing(new Home("France", 80, 5, "truc", 800));
+		l.create(new Home("France", 80, 5, "truc", 800));
 		int countHousings = l.getAll().size();
 
 		assertEquals(countInitHousing + 1, countHousings);
@@ -88,7 +88,7 @@ public class TestHousingDB {
 	@Test
 	public void test_retrieveAllCountApartment() {
 		int countInitHousing = l.getAll().size();
-		l.addHousing(new Apartment("France", 80, 5, "545f ez 1fez8 14f8zef1ez8f48 ze11 fez 1f8ze"));
+		l.create(new Apartment("France", 80, 5, "545f ez 1fez8 14f8zef1ez8f48 ze11 fez 1f8ze"));
 		int countHousings = l.getAll().size();
 
 		assertEquals(countInitHousing + 1, countHousings);
@@ -97,8 +97,8 @@ public class TestHousingDB {
 	@Test
 	public void test_retrieveAllCountBoth() {
 		int countInitHousing = l.getAll().size();
-		l.addHousing(new Home("France", 80, 5, "fez fez  787478 187fez78 1fz", 800));
-		l.addHousing(new Apartment("France", 80, 5, "561f89161 fze1 89f1ze 9181981"));
+		l.create(new Home("France", 80, 5, "fez fez  787478 187fez78 1fz", 800));
+		l.create(new Apartment("France", 80, 5, "561f89161 fze1 89f1ze 9181981"));
 		int countHousings = l.getAll().size();
 
 		assertEquals(countInitHousing + 2, countHousings);
@@ -109,14 +109,14 @@ public class TestHousingDB {
 	@Test
 	public void test_findApartmentExist() {
 		Apartment apartment = new Apartment("France", 80, 5, "jfezh ,lfa 55 faz");
-		l.addHousing(apartment);
+		l.create(apartment);
 		assertEquals(apartment, l.find("jfezh ,lfa 55 faz"));
 	}
 
 	@Test
 	public void test_findHomeExist() {
 		Home home = new Home("France", 80, 5, "la la 80 , truc", 800);
-		l.addHousing(home);
+		l.create(home);
 		assertEquals(home, l.find("la la 80 , truc"));
 	}
 
@@ -130,7 +130,7 @@ public class TestHousingDB {
 	@Test
 	public void test_deleteApartment() {
 		Apartment apartment = new Apartment("France", 80, 5, "fze 158935fz5ef82fze4fezf218fz8");
-		l.addHousing(apartment);
+		l.create(apartment);
 		l.delete("fze 158935fz5ef82fze4fezf218fz8");
 		assertEquals(null, l.find("fze 158935fz5ef82fze4fezf218fz8"));
 	}
@@ -138,7 +138,7 @@ public class TestHousingDB {
 	@Test
 	public void test_deleteHome() {
 		Home home = new Home("France", 80, 5, "45648g1re ger81ger1 8919g1erg", 800);
-		l.addHousing(home);
+		l.create(home);
 		l.delete("45648g1re ger81ger1 8919g1erg");
 		assertEquals(null, l.find("45648g1re ger81ger1 8919g1erg"));
 	}

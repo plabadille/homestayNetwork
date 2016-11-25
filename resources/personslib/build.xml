@@ -1,0 +1,57 @@
+<?xml version="1.0" ?>
+<project name="Logements Library" default="dist">
+
+<path id="junit">
+	<fileset dir="/usr/local/eclipse-luna/plugins/org.junits_4.11.0.v201303080030/">
+		<include name="junit.jar"/>
+	</fileset>
+</path>	
+	
+<target name="compile" depends="init">				
+  <javac srcdir="." destdir="build" includeantruntime="false">
+    <include name="persons/**/*.java" />
+  </javac>
+</target>
+
+<target name="dist" depends="init,compile">
+  <jar basedir="build" excludes="tests/**" destfile="dist/persons.jar" />
+</target>
+
+<target name="doc" depends="init,compile">
+  <javadoc packagenames="persons" sourcepath="." destdir="doc" />
+</target>
+
+<target name="compiletests" depends="compile">
+  <javac srcdir="." destdir="build" classpath="build" includeantruntime="false">
+  	<classpath refid="junit" />
+    <include name="tests/**/*.java" />
+  </javac>
+</target>
+
+<target name="test" depends="compiletests">
+  <java fork="yes" classname="tests.TestPersonsDB" classpath="build">
+  	<classpath refid="junit" />
+    <jvmarg value="-ea" />
+  </java>
+</target>
+
+<target name="init">
+  <mkdir dir="build" />
+  <mkdir dir="dist" />
+  <mkdir dir="doc" />
+</target>
+
+<target name="clear">
+  <antcall target="clean" />
+  <delete dir="build" />
+  <delete dir="dist" />
+  <delete dir="doc" />
+</target>
+
+<target name="clean">
+  <delete verbose="true">
+    <fileset dir="." includes="**/*~"  defaultexcludes="no" />
+  </delete>
+</target>
+
+</project>

@@ -1,56 +1,56 @@
 /**
  * A parent class for representing housing, with a country, surface, nb rooms and address
- * @author Pierre Labadille
+ * @author Pierre Labadille, Yoann Boyer
  * @since 2016-11-18
  */
 
-package logements;
+package housings;
 
-public class Logement {
+public class Housing {
 	/** The housing country */
-    protected String pays;
+    protected String country;
     /** The housing surface */
     protected int surface;
     /** The housing number of rooms */
-    protected int nbPiece;
+    protected int nbRoom;
     /** The housing address */
-    protected String adresse;
-    
+    protected String address;
+
     /**
 	 * Builds a new housing.
-	 * @param pays The housing country
+	 * @param country The housing country
 	 * @param surface The housing surface
-	 * @param nbPiece The housing nb of rooms
-	 * @param adresse The housing address
+	 * @param nbRoom The housing nb of rooms
+	 * @param address The housing address
 	 */
-    public Logement (String pays, int surface, int nbPiece, String adresse) {
-        this.pays = pays;
+    public Housing (String country, int surface, int nbRoom, String address) {
+        this.country = country;
         if (surface > 0) {
         	this.surface = surface;
         } else {
         	throw new IllegalArgumentException();
         }
-        if (nbPiece > 0) {
-        	this.nbPiece = nbPiece;
+        if (nbRoom > 0) {
+        	this.nbRoom = nbRoom;
         } else {
         	throw new IllegalArgumentException();
         }
-        this.adresse = adresse;
+        this.address = address;
     }
-    
+
     /**
      * Returns the housing country.
      * @return The housing country
      */
-    public String getPays() {
-        return this.pays;
+    public String getCountry() {
+        return this.country;
     }
     /**
      * Change the housing country.
-     * @param The new housing country as a String
+     * @param country The new housing country as a String
      */
-    public void setPays(String pays) {
-        this.pays = pays;
+    public void setCountry(String country) {
+        this.country = country;
     }
     /**
      * Returns the housing surface.
@@ -61,7 +61,7 @@ public class Logement {
     }
     /**
      * Change the housing surface.
-     * @param The new housing surface as a double
+     * @param surface The new housing surface as a double
      */
     public void setSurface(int surface) {
         this.surface = surface;
@@ -70,35 +70,35 @@ public class Logement {
      * Returns the housing nb of rooms.
      * @return The housing nb of rooms
      */
-    public int getNbPiece() {
-        return this.nbPiece;
+    public int getNbRoom() {
+        return this.nbRoom;
     }
     /**
      * Change the housing nb of rooms.
-     * @param The new housing nb of rooms as an int
+     * @param nbRoom The new housing nb of rooms as an int
      */
-    public void setNbPiece(int nbPiece) {
-        this.nbPiece = nbPiece;
+    public void setNbRoom(int nbRoom) {
+        this.nbRoom = nbRoom;
     }
     /**
      * Returns the housing address.
      * @return The housing address
      */
-    public String getAdresse() {
-        return this.adresse;
+    public String getAddress() {
+        return this.address;
     }
     /**
      * Change the housing address.
-     * @param The new housing address as a String
+     * @param address The new housing address as a String
      */
-    public void setAdresse(String adresse) {
-        this.adresse = adresse;
+    public void setAddress(String address) {
+        this.address = address;
     }
     /**
      * Returns a representation of this housing as a string.
      * @return A representation of this housing as a string
      */
     public String toString() {
-        return "Pays: " + this.getPays() + ". Surface: " + this.getSurface() + "m². Nombre de pièces: " + this.getNbPiece() + " pièces. Adresse: " + this.getAdresse();
+        return "Pays: " + this.getCountry() + ". Surface: " + this.getSurface() + "m². Nombre de pièces: " + this.getNbRoom() + " pièces. Adresse: " + this.getAddress();
     }
 }

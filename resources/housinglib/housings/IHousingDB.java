@@ -6,6 +6,7 @@
 
 package housings;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface IHousingDB {
@@ -38,8 +39,9 @@ public interface IHousingDB {
      * Return a housing if it exist in the database
      * @param address housing The housing address to search
      * @return The housing if it exist or null
+     * @throws SQLException
      */
-    public Housing find(String address);
+    public Housing find(String address) throws SQLException;
 
     // "D" operations
 
@@ -48,6 +50,6 @@ public interface IHousingDB {
      * @param address housing The housing address to search
      * @throws IndexOutOfBoundsException if the argument is not find in the database
      */
-    public void delete (String address) throws IndexOutOfBoundsException;
+    public void delete (Housing housing) throws IndexOutOfBoundsException;
 
 }

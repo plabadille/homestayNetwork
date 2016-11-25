@@ -1,0 +1,42 @@
+*{
+    margin: none;
+    padding: none;
+}
+body{
+    width: 80%;
+    margin: auto;
+}
+
+#conteneur{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+    header{
+        border:  1px solid grey;
+        padding: 5px;
+        margin: 5px;
+        order: 1;
+    }
+        h1{
+            text-align: center;
+        }
+    main{
+        border:  1px solid grey;
+        padding: 5px;
+        margin: 5px;
+        order: 3;
+        flex: 1;
+    }
+    nav{
+        border:  1px solid grey;
+        padding: 5px;
+        margin: 5px;
+        order: 2;
+    }
+    footer{
+        border: 1px solid grey;
+        padding: 5px;
+        margin: 5px;
+        order: 4;
+    }

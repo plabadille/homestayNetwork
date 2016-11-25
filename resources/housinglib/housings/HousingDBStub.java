@@ -87,18 +87,18 @@ public class HousingDBStub implements IHousingDB {
     	return null;
     }
 
-    public void delete (String address) {
+    public void delete (Housing housing) {
     	int index = -1;
     	int i = 0;
-    	for (Housing housing : this.housings) {
-    		if (housing.address == address) {
+    	for (Housing h : this.housings) {
+    		if (h.address == housing.address) {
     			index = i;
     			break;
     		}
     		i++;
     	}
         if (index == -1) {
-            throw new IndexOutOfBoundsException("No person with address: " + address);
+            throw new IndexOutOfBoundsException("No person with address: " + housing.address);
         }
         this.housings.remove(index);
     }

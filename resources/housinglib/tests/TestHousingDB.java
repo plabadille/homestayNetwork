@@ -131,7 +131,7 @@ public class TestHousingDB {
 	public void test_deleteApartment() {
 		Apartment apartment = new Apartment("France", 80, 5, "fze 158935fz5ef82fze4fezf218fz8");
 		l.create(apartment);
-		l.delete("fze 158935fz5ef82fze4fezf218fz8");
+		l.delete(apartment);
 		assertEquals(null, l.find("fze 158935fz5ef82fze4fezf218fz8"));
 	}
 
@@ -139,13 +139,13 @@ public class TestHousingDB {
 	public void test_deleteHome() {
 		Home home = new Home("France", 80, 5, "45648g1re ger81ger1 8919g1erg", 800);
 		l.create(home);
-		l.delete("45648g1re ger81ger1 8919g1erg");
+		l.delete(home);
 		assertEquals(null, l.find("45648g1re ger81ger1 8919g1erg"));
 	}
 
 	@Test(expected=IndexOutOfBoundsException.class)
 	public void testIndexOutOfBoundsExceptionDelete() {
-		l.delete("51478g4r 4g89re4gre4 g8489er 48");
+		l.delete(new Apartment("Italy", 56, 4, "unknown"));
 	}
 
 }

@@ -20,7 +20,7 @@ public interface IPersonDB {
      * @throws Exception if a person with the same email address already exists in the list or
      * a database access error occurs
      */
-    public void create (Person p, String password) throws Exception;
+    public void create (Person p) throws Exception;
 
     // "R" operations
 

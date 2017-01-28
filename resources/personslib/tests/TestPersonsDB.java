@@ -28,11 +28,11 @@ public class TestPersonsDB {
 				}
 				try{
 					Person test1 = instance.find("marie.dupont@mail.fr");
+					System.out.println(test1.toString());
 				} catch (Exception e){
 					throw e;
 				}
 
-        System.out.println(test1.toString());
 	}
 
 	// @Test

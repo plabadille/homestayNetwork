@@ -14,7 +14,7 @@ import persons.IPersonDB;
 
 import org.junit.Test;
 
-public class TestPersonsDB extends TestCase {
+public class TestPersonsDB {
 
 	protected static PersonDB l = new PersonDB();
 	protected static IPersonDB instance;

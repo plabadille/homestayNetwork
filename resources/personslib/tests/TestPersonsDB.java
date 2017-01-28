@@ -21,7 +21,7 @@ public class TestPersonsDB {
 	//test hash
 	@Test
 	public void test_find() {
-		rivate IPersonDB insance;
+		private IPersonDB insance;
 				try{
 					instance.create(new Person("Dupont","Marie","marie.dupont@mail.fr"));
 				} catch (Exception e){

@@ -7,14 +7,12 @@
 package tests;
 
 import static org.junit.Assert.*;
-import junit.framework.TestCase;
-import junit.framework.Test;
 
 import persons.Person;
 import persons.PersonDB;
 import persons.IPersonDB;
 
-// import org.junit.Test;
+import org.junit.Test;
 
 public class TestPersonsDB extends TestCase {
 

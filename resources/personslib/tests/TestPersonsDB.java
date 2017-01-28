@@ -14,7 +14,7 @@ import persons.Person;
 import persons.PersonDB;
 import persons.IPersonDB;
 
-import org.junit.Test;
+// import org.junit.Test;
 
 public class TestPersonsDB extends TestCase {
 

@@ -8,6 +8,7 @@ package tests;
 
 import static org.junit.Assert.*;
 import junit.framework.TestCase;
+import junit.framework.Test;
 
 import persons.Person;
 import persons.PersonDB;

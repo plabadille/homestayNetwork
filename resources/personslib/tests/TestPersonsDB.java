@@ -7,6 +7,7 @@
 package tests;
 
 import static org.junit.Assert.*;
+import junit.framework.TestCase;
 
 import persons.Person;
 import persons.PersonDB;
@@ -14,7 +15,7 @@ import persons.IPersonDB;
 
 import org.junit.Test;
 
-public class TestPersonsDB {
+public class TestPersonsDB extends TestCase {
 
 	protected static PersonDB l = new PersonDB();
 	protected static IPersonDB instance;

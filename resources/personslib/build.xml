@@ -4,6 +4,15 @@
   <path id="junit">
       <pathelement path="/usr/share/java/junit4.jar"/>
   </path>
+
+  <junit printsummary="yes" haltonfailure="yes">
+    <classpath>
+        <path refid="tests.TestPersonsDB" />
+        <fileset dir="${junit.dir}">
+            <include name="**/junit-4.12.jar" />
+        </fileset>
+    </classpath>
+  </junit>
 <path id="external">
   <fileset dir="lib/">
     <include name="**/*.jar"/>

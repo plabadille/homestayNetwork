@@ -21,9 +21,16 @@ public class TestPersonsDB {
 	//test hash
 	@Test
 	public void test_find(IPersonDB instance) {
-        instance.create(new Person("Dupont","Marie","marie.dupont@mail.fr"));
-
-        Person test1 = instance.find("marie.dupont@mail.fr");
+				try{
+					instance.create(new Person("Dupont","Marie","marie.dupont@mail.fr"));
+				} catch (Exception e){
+					throw e;
+				}
+				try{
+					Person test1 = instance.find("marie.dupont@mail.fr");
+				} catch (Exception e){
+					throw e;
+				}
 
         System.out.println(test1.toString());
 	}

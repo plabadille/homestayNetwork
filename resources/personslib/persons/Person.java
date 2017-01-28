@@ -3,7 +3,8 @@ package persons;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 /**
  * A class for representing persons, with a name, a first name, and an email address.
  * @author Charlotte Lecluze and Bruno Zanuttini, Universit&eacute; de Caen Basse-Normandie, France
@@ -45,7 +46,7 @@ public class Person {
         this.name=name;
         this.firstName=firstName;
         this.email=email;
-        this.password=setPassword(this.email);
+        setPassword(this.email);
     }
 
     /**

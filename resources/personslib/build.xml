@@ -1,15 +1,22 @@
 <?xml version="1.0" ?>
 <project name="Logements Library" default="dist">
 
-<path id="junit">
-	<fileset dir="/usr/local/eclipse-luna/plugins/org.junits_4.11.0.v201303080030/">
-		<include name="junit.jar"/>
-	</fileset>
-</path>	
-	
-<target name="compile" depends="init">				
+  <path id="junit">
+      <pathelement path="/usr/share/java/junit4.jar"/>
+  </path>
+<path id="external">
+  <fileset dir="lib/">
+    <include name="**/*.jar"/>
+  </fileset>
+  <fileset dir="compileonlylib/">
+    <include name="**/*.jar"/>
+  </fileset>
+</path>
+
+<target name="compile" depends="init">
   <javac srcdir="." destdir="build" includeantruntime="false">
     <include name="persons/**/*.java" />
+        <classpath refid="external" />
   </javac>
 </target>
 

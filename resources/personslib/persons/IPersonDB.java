@@ -55,14 +55,6 @@ public interface IPersonDB {
      */
     public boolean isValid (String email, String password) throws Exception;
 
-    /**
-     * Decides whether a person with a given email exists in the list.
-     * @return true is the list contains a person with the given email,
-     * false otherwise
-     * @throws Exception if a database access error occurs
-     */
-    public boolean exists (String email) throws Exception;
-
     // "U" operations
 
     /**

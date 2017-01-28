@@ -19,7 +19,8 @@ public class TestPersonDB {
      * @throws Exception if an unexpected error occurs
      */
     public static void test (IPersonDB instance) throws Exception {
-        instance.create(new Person("Dupont","Marie","marie.dupont@mail.fr"),"eiram");
+        
+        instance.create(new Person("Dupont","Marie","marie.dupont@mail.fr"));
 
         Person test1 = instance.find("marie.dupont@mail.fr");
 

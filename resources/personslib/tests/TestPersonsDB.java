@@ -24,13 +24,13 @@ public class TestPersonsDB {
 				try{
 					instance.create(new Person("Dupont","Marie","marie.dupont@mail.fr"));
 				} catch (Exception e){
-					System.out.println('create fail');
+					System.out.println("create fail");
 				}
 				try{
 					Person test1 = instance.find("marie.dupont@mail.fr");
 					System.out.println(test1.toString());
 				} catch (Exception e){
-					System.out.println('find fail');
+					System.out.println("find fail");
 				}
 
 	}

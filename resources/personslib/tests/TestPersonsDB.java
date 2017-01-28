@@ -17,7 +17,7 @@ import org.junit.Test;
 public class TestPersonsDB {
 
 	protected static PersonDB l = new PersonDB();
-	protected static IPersonDB insance;
+	protected static IPersonDB instance;
 
 	//test hash
 	@Test

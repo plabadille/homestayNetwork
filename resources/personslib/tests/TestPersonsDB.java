@@ -17,11 +17,11 @@ import org.junit.Test;
 public class TestPersonsDB {
 
 	protected static PersonDB l = new PersonDB();
+	protected static IPersonDB insance;
 
 	//test hash
 	@Test
 	public void test_find() {
-		private IPersonDB insance;
 				try{
 					instance.create(new Person("Dupont","Marie","marie.dupont@mail.fr"));
 				} catch (Exception e){

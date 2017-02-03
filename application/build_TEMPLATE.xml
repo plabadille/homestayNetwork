@@ -1,12 +1,10 @@
 <?xml version="1.0" ?>
 <project name="Homestay Network" default="dist">
 
-<property name="autodeploydir" value="../../glassfish4/glassfish/domains/domain1/autodeploy" />
+<property name="autodeploydir" value="RELATIVE_PATH_TO_GLASSFISH_DOMAIN/autodeploy" />
 
-<path id="jee">
-<!--   <fileset dir="/usr/local/glassfish-4.1/glassfish/modules/">
- -->    
-  <fileset dir="/home/ubuntu/Documents/glassfish4/glassfish/modules/">
+<path id="jee">   
+  <fileset dir="ABSOLUTE_PATH_TO_GLASSFISH_FOLDER/glassfish/modules/">
     <include name="*.jar"/>
   </fileset>
 </path>

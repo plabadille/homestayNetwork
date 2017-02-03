@@ -9,9 +9,9 @@
   <session-factory>
 
     <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-    <property name="connection.url">jdbc:mysql://HOSTNAME:3306/DATABASE</property>
+    <property name="connection.url">jdbc:mysql://mysql.info.unicaen.fr:3306/DB</property>
     <property name="connection.username">USERNAME</property>
-    <property name="connection.password">PASSWORD</property>
+    <property name="connection.password">PASS</property>
 
     <property name="connection.pool_size">1</property>
     <property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
@@ -19,7 +19,7 @@
     <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
     <property name="hbm2ddl.auto">update</property>
 
-    <mapping resource="AssociableProduct.hbm.xml" />
+    <mapping resource="Person.hbm.xml" />
 
   </session-factory>
 

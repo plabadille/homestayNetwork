@@ -8,6 +8,8 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.util.Collection;
+
 import persons.Person;
 import persons.PersonDB;
 import persons.IPersonDB;
@@ -17,24 +19,61 @@ import org.junit.Test;
 public class TestPersonsDB {
 
 	protected static PersonDB l = new PersonDB();
-	protected static IPersonDB instance;
+	//protected static IPersonDB instance;
 
 	//test hash
 	@Test
 	public void test_find() {
+		System.out.println("-----------------------------------");
 				try{
-					instance.create(new Person("Dupont","Marie","marie.dupont@mail.fr"));
+					l.initialize();
+					l.create(new Person("Dupont","Marie","marie.dupont@mail.fr"));
 				} catch (Exception e){
-					System.out.println("create fail");
+					System.out.println("create fail ");
+				e.printStackTrace();
 				}
 				try{
-					Person test1 = instance.find("marie.dupont@mail.fr");
+					Person test1 = l.find("marie.dupont@mail.fr");
 					System.out.println(test1.toString());
 				} catch (Exception e){
 					System.out.println("find fail");
 				}
 
 	}
+	@Test
+	public void test_getAll() {
+		System.out.println("-----------------------------------");
+				try{
+					l.initialize();
+					l.create(new Person("Dupont2","Marie2","marie2.dupont@mail.fr"));
+					l.create(new Person("Dupont3","Marie2","marie3.dupont@mail.fr"));
+				} catch (Exception e){
+					System.out.println("create fail ");
+				e.printStackTrace();
+				}
+				try{
+					Collection<Person> test1 = l.getAll();
+					System.out.println(test1);
+				} catch (Exception e){
+					System.out.println("getAll fail");
+				}
+
+	}
+	@Test
+	public void test_getAllEmails() {
+		System.out.println("-----------------------------------");
+				try{
+					l.initialize();
+					Collection<String> test2 = l.getAllEmails();
+					System.out.println(test2);
+				} catch (Exception e){
+					System.out.println("getAllEmails fail");
+					e.printStackTrace();
+				}
+
+	}
+	
+	
 
 	// @Test
 	// public void test_hashFromEmail() {

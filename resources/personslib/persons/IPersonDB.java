@@ -2,6 +2,7 @@ package persons;
 
 import java.util.Collection;
 
+
 /**
  * An interface for databases of persons. The interface essentially declares CRUD operations,
  * and operations to add/check passwords (while these are not stored in class Person).
@@ -12,7 +13,7 @@ import java.util.Collection;
 public interface IPersonDB {
 
     // "C" operations
-
+	public void initialize() throws Exception;
     /**
      * Adds a person to this database.
      * @param p The person to add

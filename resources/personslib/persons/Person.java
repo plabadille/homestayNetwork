@@ -49,7 +49,13 @@ public class Person {
         setPassword(this.email);
     }
 
-    /**
+    public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	/**
      * Returns the person's name.
      * @return The person's name
      */

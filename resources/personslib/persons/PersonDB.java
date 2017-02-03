@@ -39,8 +39,8 @@ public class PersonDB implements IPersonDB {
 
 
     // Handling Hibernate sessions ===================================================
-
-    protected void initialize () throws InvalidMappingException {
+    @Override
+	public void initialize () throws InvalidMappingException {
         ServiceRegistry serviceRegistry = null;
         try {
             Configuration configuration = new Configuration().configure();
@@ -64,7 +64,9 @@ public class PersonDB implements IPersonDB {
     public void create (Person p) throws IllegalArgumentException {
         Session session = sessionFactory.openSession();
         Query query=session.createQuery("from Person");
-        if (((List<Person>)query.list()).isEmpty()) {
+        //if (((List<Person>)query.list()).isEmpty()) {
+        System.out.println(p.getEmail());
+        if (find(p.getEmail()) == null) {
             Transaction transaction=null;
             try {
                 transaction=session.beginTransaction();
@@ -100,15 +102,13 @@ public class PersonDB implements IPersonDB {
     public Collection<String> getAllEmails () {
         Session session=sessionFactory.openSession();
         Transaction transaction=null;
-        List<String> emails = null;
+        List<String> emails = new ArrayList<String>();;
         try {
             transaction=session.beginTransaction();
-            Query query=session.createQuery("from Person");
-            List<Person> allPersons=(List<Person>)query.list();
+            Collection<Person> allPersons=getAll();
             for (Person person: allPersons) {
                 emails.add(person.getEmail());
             }
-            // assert allProducts.size()==2;
             transaction.commit();
         } catch (Exception e) {
             if (transaction!=null) {

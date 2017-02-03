@@ -1,3 +1,4 @@
 dist/
 build/
 doc/
+/hibernate.cfg.xml

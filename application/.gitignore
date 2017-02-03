@@ -3,5 +3,5 @@ compileonlylib/
 dist/
 lib/
 
-build.xml
-ressources/hibernate.cfg.xml
+/build.xml
+/resources/hibernate.cfg.xml

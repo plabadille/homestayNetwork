@@ -1,4 +1,7 @@
 build/
+compileonlylib/
 dist/
-doc/
-lib/*
+lib/
+
+/build.xml
+/resources/hibernate.cfg.xml

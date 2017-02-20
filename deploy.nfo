@@ -1,0 +1,91 @@
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+CONFIGURE GLASSFISH AND DOMAIN
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+
+https://glassfish.java.net/download.html
+Make sur the dependencies are installed
+
+Extraire dans ~/Documents
+glassfish4/bin/asadmin start-domain
+ouvrir la console: http://localhost:4848/
+
+Rendre le path global:
+vim ~/.profile
+ajouter à la fin:
+export PATH=$HOME/Documents/glassfish4/bin:$PATH
+
+    Pour tester:
+    mkdir ~/Documents/sample-dir
+    placer hello.war (http://foad2.unicaen.fr/moodle/mod/resource/view.php?id=144594)
+
+    Deploy from comandline:
+    asadmin deploy ~/Documents/sample-domain/hello.war
+
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+
+
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+--------------------------- Usefull asadmin command -----------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+asadmin start-domain
+asadmin stop-domain
+asadmin deploy appsPath (.war)
+asadmin undeploy war-name
+asadmin list-applications //To List Deployed Applications From the Command Line
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+CONFIGURE SERVER AND APPS (homestayNetwork/application)
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+clone the repository
+-----------------------
+git clone https://github.com/plabadille/homestayNetwork
+cd homestayNetwork/application && mkdir lib compileonlylib
+
+cd ../
+unzip homestayNetwork/projectNeeds.tar.tar.gz
+copy the content of homestayNetwork/projectNeeds/libs_compileOnlyFile in homestayNetwork/compileonlylib
+
+add source to the domain:
+-------------------------
+(the .jar have to be directly in lib folder):
+copy the content of homestayNetwork/projectNeeds/libs_compileOnlyFile in glassfish4/glassfish/domains/domain1/lib
+copy the content of homestayNetwork/projectNeeds/domainsLibs in glassfish4/glassfish/domains/domain1/lib
+
+Then clean: cd homestayNetwork/ && rm -rf projectNeeds
+
+config the xml of application:
+-------------------
+cd homestayNetwork/application/ && cp build_TEMPLATE.xml build.xml
+-> replace the elements in MAJ
+
+change the database information:
+------------------
+cd homestayNetwork/application/ressources && cp hibernate.cfg_TEMPLATE.xml hibernate.cfg.xml
+-> replace the elements in MAJ
+
+deploy the app:
+------------------
+cd homestayNetwork/application/
+ant deploy
+
+Check if it work file:
+------------------
+http://localhost:8080/homestayNetwork/
+
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+------ /!\ After modification always run : ant clear && ant deploy" /!\ ---------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------

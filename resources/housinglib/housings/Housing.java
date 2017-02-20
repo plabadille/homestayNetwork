@@ -101,4 +101,23 @@ public class Housing {
     public String toString() {
         return "Pays: " + this.getCountry() + ". Surface: " + this.getSurface() + "m². Nombre de pièces: " + this.getNbRoom() + " pièces. addresse: " + this.getAddress();
     }
+
+    public boolean equals(Object object) {
+      if(object == null) {
+          return false;
+      }
+      if(this == object) {
+          return true;
+      }
+      Housing otherHousing = (Housing) object;
+      if(this.getAddress() == otherHousing.getAddress()
+        && this.getNbRoom() == otherHousing.getNbRoom()
+        && this.getCountry() == otherHousing.getCountry()
+        && this.getSurface() == otherHousing.getSurface()
+        ) {
+          return true;
+      } else {
+          return false;
+      }
+  }
 }

@@ -41,11 +41,11 @@ public class SQLHousingDB implements IHousingDB {
         this.table = table;
 
         this.createHousingStatement = this.link.prepareStatement(
-            "INSERT INTO " + this.table + " (country, surface, rooms, address, gardenSurface, isApartment) VALUES(?,?,?,?,?,?)"
+            "INSERT INTO " + this.table + " (country, surface, nbRoom, address, gardenSurface, isApartment) VALUES(?,?,?,?,?,?)"
         );
 
         this.updateHousingStatement = this.link.prepareStatement(
-            "UPDATE " + this.table + " SET country=?, surface=?, rooms=?, gardenSurface=?, isApartment=? WHERE address=?"
+            "UPDATE " + this.table + " SET country=?, surface=?, nbRoom=?, gardenSurface=?, isApartment=? WHERE address=?"
         );
 
         this.retrieveAllHousingStatement = this.link.prepareStatement(
@@ -121,6 +121,7 @@ public class SQLHousingDB implements IHousingDB {
         query += " country VARCHAR(100) NOT NULL,";
         query += " surface INT NOT NULL,";
         query += " nbRoom INT NOT NULL,";
+        query += " gardenSurface INT NOT NULL,";
         query += " address VARCHAR(255) NOT NULL,";
         query += " isApartment boolean NOT NULL,";
         query += " PRIMARY KEY (address)";
@@ -180,7 +181,7 @@ public class SQLHousingDB implements IHousingDB {
      * @throws SQLException if a database access error occurs
      */
     public void deleteTables() throws SQLException {
-        String query="DROP TABLE IF EXISTS HOME,APARTMENT,housing";
+        String query="DROP TABLE IF EXISTS " + this.table;
         Statement statement=this.link.createStatement();
         statement.execute(query);
     }
@@ -192,7 +193,7 @@ public class SQLHousingDB implements IHousingDB {
      */
     @Override
     public void delete(Housing housing) throws SQLException {
-        String query="DELETE FROM HOME WHERE address=\"" + housing.getAddress() + "\"";
+        String query="DELETE FROM " + this.table + " WHERE address=\"" + housing.getAddress() + "\"";
         this.link.createStatement().execute(query);
     }
 }

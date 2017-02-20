@@ -2,11 +2,11 @@
 <project name="housingLib" default="dist">
 
     <path id="junit">
-        <pathelement path="/home/yboyer/Téléchargements/junit-4.10.jar"/>
+        <pathelement path="/home/plabadille/Documents/homestayNetwork/resources/housinglib/junit-4.10.jar"/>
     </path>
 
     <path id="jdbc">
-        <pathelement path="/home/yboyer/Documents/TAF/homTMP/projectNeeds/domainsLibs/mysql-connector-java-5.1.40-bin.jar"/>
+        <pathelement path="/home/plabadille/Documents/homestayNetwork/resources/housinglib/mysql-connector-java-5.1.40-bin.jar"/>
     </path>
 
     <path id="combined">

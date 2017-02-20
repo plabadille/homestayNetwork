@@ -59,7 +59,7 @@ public class HousingDBStub implements IHousingDB {
     	if (!exist(housing)) {
     		this.housings.add(housing);
     	} else {
-    		throw new IllegalArgumentException("This adress is already use in database");
+    		throw new IllegalArgumentException("This address is already use in database");
     	}
     }
 

@@ -19,12 +19,12 @@
     </error-page>
 
     <servlet>
-        <servlet-name>EchangeAppartement</servlet-name>
+        <servlet-name>Echangeapartment</servlet-name>
         <jsp-file>/pages/funnyProduct.jsp</jsp-file>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>EchangeAppartement</servlet-name>
-        <url-pattern>/echangeAppartement</url-pattern>
+        <servlet-name>Echangeapartment</servlet-name>
+        <url-pattern>/echangeapartment</url-pattern>
     </servlet-mapping>
 </web-app>

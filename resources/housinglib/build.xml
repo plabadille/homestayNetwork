@@ -2,7 +2,16 @@
 <project name="housingLib" default="dist">
 
     <path id="junit">
-        <pathelement path="/usr/share/java/junit4.jar"/>
+        <pathelement path="/home/yboyer/Téléchargements/junit-4.10.jar"/>
+    </path>
+
+    <path id="jdbc">
+        <pathelement path="/home/yboyer/Documents/TAF/homTMP/projectNeeds/domainsLibs/mysql-connector-java-5.1.40-bin.jar"/>
+    </path>
+
+    <path id="combined">
+        <path refid="junit"/>
+        <path refid="jdbc"/>
     </path>
 
     <target name="compile" depends="init">
@@ -11,22 +20,22 @@
         </javac>
     </target>
 
-    <target name="dist" depends="init,compile">
+    <target name="dist" depends="compile">
         <jar basedir="build" excludes="tests/**" destfile="dist/housings.jar"/>
     </target>
 
-    <target name="doc" depends="init,compile">
+    <target name="doc" depends="compile">
         <javadoc packagenames="housings" sourcepath="." destdir="doc"/>
     </target>
 
-    <target name="compiletest">
-        <javac srcdir="." destdir="build" classpath="build" classpathref="junit" includeantruntime="false">
+    <target name="compiletest" depends="init">
+        <javac srcdir="." destdir="build" classpath="build" classpathref="combined" includeantruntime="false">
             <include name="tests/**/*.java"/>
         </javac>
     </target>
 
     <target name="test" depends="compiletest">
-        <java fork="yes" classname="org.junit.runner.JUnitCore" classpath="build" classpathref="junit">
+        <java fork="yes" classname="org.junit.runner.JUnitCore" classpath="build" classpathref="combined">
             <jvmarg value="-ea"/>
             <arg value="tests.TestHousingDB"/>
         </java>
@@ -38,8 +47,7 @@
         <mkdir dir="doc"/>
     </target>
 
-    <target name="clear">
-        <antcall target="clean"/>
+    <target name="clear" depends="clean">
         <delete dir="build"/>
         <delete dir="dist"/>
         <delete dir="doc"/>

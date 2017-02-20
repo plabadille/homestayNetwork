@@ -23,7 +23,7 @@ public class Housing {
 	 * @param nbRoom The housing nb of rooms
 	 * @param address The housing address
 	 */
-    public Housing (String country, int surface, int nbRoom, String address) {
+    public Housing(String country, int surface, int nbRoom, String address) {
         this.country = country;
         if (surface > 0) {
         	this.surface = surface;
@@ -99,6 +99,6 @@ public class Housing {
      * @return A representation of this housing as a string
      */
     public String toString() {
-        return "Pays: " + this.getCountry() + ". Surface: " + this.getSurface() + "m². Nombre de pièces: " + this.getNbRoom() + " pièces. Adresse: " + this.getAddress();
+        return "Pays: " + this.getCountry() + ". Surface: " + this.getSurface() + "m². Nombre de pièces: " + this.getNbRoom() + " pièces. addresse: " + this.getAddress();
     }
 }

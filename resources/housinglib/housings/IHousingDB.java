@@ -14,11 +14,15 @@ public interface IHousingDB {
 	// "C" operations
 
     /**
-     * Adds a housing to this database.
-     * @param housing The housing to add as a housing Object
-     * @throws IllegalArgumentException if the argument is not an object from Housing
+     * Adds a house to this database.
+     * @param home The home to add
+     * @throws SQLException if the argument is not an object from Housing
      */
-    public void create(Housing housing) throws IllegalArgumentException;
+    public void add(Home home) throws SQLException;
+    public void add(Apartment apartment) throws SQLException;
+
+    public void update(Home home) throws SQLException;
+    public void update(Apartment apartment) throws SQLException;
 
     // "R" operations
 
@@ -26,14 +30,7 @@ public interface IHousingDB {
      * Return each housing present in the database
      * @return An array of housing present in the database
      */
-    public List<Housing> getAll();
-
-    /**
-     * Return if a housing exist or not in the database
-     * @param housing The housing to check as a housing Object
-     * @return A boolean
-     */
-    public boolean exist(Housing housing);
+    public List<Housing> getAll() throws SQLException;
 
     /**
      * Return a housing if it exist in the database
@@ -45,11 +42,5 @@ public interface IHousingDB {
 
     // "D" operations
 
-    /**
-     * Delete a housing (identified by his adress) if it exist in the database
-     * @param address housing The housing address to search
-     * @throws IndexOutOfBoundsException if the argument is not find in the database
-     */
-    public void delete (Housing housing) throws IndexOutOfBoundsException;
-
+    public void delete(Housing housing) throws SQLException;
 }

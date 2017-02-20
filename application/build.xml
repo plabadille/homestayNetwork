@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<project name="Fil rouge: Echange appartement" default="dist">
+<project name="Fil rouge: Echange apartment" default="dist">
 
 <property name="autodeploydir" value="../domaine/autodeploy" />
 
@@ -29,11 +29,11 @@
   <copy todir="build/WEB-INF/lib">
     <fileset dir="lib" includes="*" />
   </copy>
-  <jar basedir="build" destfile="dist/echangeAppartement.war" />
+  <jar basedir="build" destfile="dist/echangeapartment.war" />
 </target>
 
 <target name="deploy" depends="dist">
-  <copy todir="${autodeploydir}" file="dist/echangeAppartement.war" />
+  <copy todir="${autodeploydir}" file="dist/echangeapartment.war" />
 </target>
 
 <target name="init">

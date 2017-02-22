@@ -20,8 +20,12 @@
     </bean>
 
     <bean id="PersonDB" class="persons.PersonDB" />
+    <bean id="Person" class="persons.Person" />
 
     <!-- Enables the Spring MVC @Controller programming model -->
     <mvc:annotation-driven />
- 
+    
+    <!-- Let us use static ressources as CSS or JS -->
+    <mvc:default-servlet-handler/>
+
 </beans>

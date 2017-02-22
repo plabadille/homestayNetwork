@@ -24,6 +24,7 @@ public class VisualiseController {
 
     @RequestMapping(value={"/home"})
     public String visualiseAll (HttpSession session) {
+        personDB.initialize();
         Utils.initializeSession(session,this.personDB);
         return "home";
     }

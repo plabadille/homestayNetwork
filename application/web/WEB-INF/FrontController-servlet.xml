@@ -19,6 +19,8 @@
         <property name="suffix" value=".jsp" />
     </bean>
 
+    <bean id="PersonDB" class="persons.PersonDB" />
+
     <!-- Enables the Spring MVC @Controller programming model -->
     <mvc:annotation-driven />
  

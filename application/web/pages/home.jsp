@@ -18,7 +18,7 @@
                 <ul>
                   <c:forEach var="person" items="${allPersons}">
                     <li>
-                      <a href="<c:url value="view/${person.id}" />">${person.firstName} ${person.name} </a> - <a href="<c:url value="deleteUser?email=${person.email}" />">Supprimer</a>
+                      <a href="<c:url value="viewUser/${person.id}" />">${person.firstName} ${person.name} </a> - <a href="<c:url value="deleteUser?id=${person.email}" />">Supprimer</a>
                     </li> 
                   </c:forEach>
                 </ul>

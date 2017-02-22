@@ -51,7 +51,7 @@ public class PersonsController {
     //doesn't work: the user is find but the hibernate method doesn't work
     //TO DO: debug personDB.delete(String email)
     @RequestMapping(value="/deleteUser", method=RequestMethod.GET)
-    public String addUser(@RequestParam("email") String email, HttpSession session, RedirectAttributes redirectAttributes) {
+    public String addUser(@RequestParam("id") String email, HttpSession session, RedirectAttributes redirectAttributes) {
 
         Utils.initializeSession(session,this.personDB);
         String message = null;
@@ -70,6 +70,40 @@ public class PersonsController {
         }
         redirectAttributes.addFlashAttribute("message",message);
         return "redirect:/home";
+    }
+
+    //doesn't work: the user is find but the hibernate method throw exception (may be caused by long)
+    //TO DO: debug personDB.update()
+    @RequestMapping(value="/viewUser/editUser", method=RequestMethod.POST)
+    public String editUser(@RequestParam Map<String,String> requestParams, HttpSession session, RedirectAttributes redirectAttributes) {
+        
+        String name = requestParams.get("name");
+        String firstName = requestParams.get("firstName");
+        String email = requestParams.get("email");
+        String oldEmail = requestParams.get("oldEmail");
+
+        Utils.initializeSession(session,this.personDB);
+        String message = null;
+        System.out.println(name + " " +firstName+ " "+email+ " "+oldEmail );
+        if (!name.isEmpty() && !firstName.isEmpty() && !email.isEmpty() && !oldEmail.isEmpty()) {
+            System.out.println("gezgegezgezgze");
+            //we create the new user
+            Person person = new Person(name, firstName, email);
+            Person beforeUpdate = this.personDB.find(oldEmail);
+            //we add this user in the db
+            this.personDB.update(oldEmail, person);
+            System.out.println("iouifgabzhjekorgjhfijlageh");
+            //we update the session storage
+            ((List<Person>)session.getAttribute("allPersons")).remove(beforeUpdate);
+            ((List<Person>)session.getAttribute("allPersons")).add(person);
+            
+            message="L'utilisateur " + firstName + " " + name + " a bien été modifié.";
+            return "redirect:/viewUser/" + email;
+        } else {
+            message="Il y a des erreurs dans le formulaire.";
+        }
+        redirectAttributes.addFlashAttribute("message",message);
+        return "redirect:/viewUser/" + oldEmail;
     }
 
 }

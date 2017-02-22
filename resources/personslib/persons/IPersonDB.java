@@ -2,6 +2,7 @@ package persons;
 
 import java.util.Collection;
 
+
 /**
  * An interface for databases of persons. The interface essentially declares CRUD operations,
  * and operations to add/check passwords (while these are not stored in class Person).
@@ -12,7 +13,7 @@ import java.util.Collection;
 public interface IPersonDB {
 
     // "C" operations
-
+	public void initialize() throws Exception;
     /**
      * Adds a person to this database.
      * @param p The person to add
@@ -20,7 +21,7 @@ public interface IPersonDB {
      * @throws Exception if a person with the same email address already exists in the list or
      * a database access error occurs
      */
-    public void create (Person p, String password) throws Exception;
+    public void create (Person p) throws Exception;
 
     // "R" operations
 
@@ -54,14 +55,6 @@ public interface IPersonDB {
      * @throws Exception if a database access error occurs
      */
     public boolean isValid (String email, String password) throws Exception;
-
-    /**
-     * Decides whether a person with a given email exists in the list.
-     * @return true is the list contains a person with the given email,
-     * false otherwise
-     * @throws Exception if a database access error occurs
-     */
-    public boolean exists (String email) throws Exception;
 
     // "U" operations
 

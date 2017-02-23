@@ -7,7 +7,7 @@
 package housings;
 
 public class Housing {
-	/** The housing country */
+    /** The housing country */
     protected String country;
     /** The housing surface */
     protected int surface;
@@ -17,23 +17,23 @@ public class Housing {
     protected String address;
 
     /**
-	 * Builds a new housing.
-	 * @param country The housing country
-	 * @param surface The housing surface
-	 * @param nbRoom The housing nb of rooms
-	 * @param address The housing address
-	 */
-    public Housing (String country, int surface, int nbRoom, String address) {
+     * Builds a new housing.
+     * @param country The housing country
+     * @param surface The housing surface
+     * @param nbRoom The housing nb of rooms
+     * @param address The housing address
+     */
+    public Housing(String country, int surface, int nbRoom, String address) {
         this.country = country;
         if (surface > 0) {
-        	this.surface = surface;
+            this.surface = surface;
         } else {
-        	throw new IllegalArgumentException();
+            throw new IllegalArgumentException();
         }
         if (nbRoom > 0) {
-        	this.nbRoom = nbRoom;
+            this.nbRoom = nbRoom;
         } else {
-        	throw new IllegalArgumentException();
+            throw new IllegalArgumentException();
         }
         this.address = address;
     }
@@ -99,6 +99,18 @@ public class Housing {
      * @return A representation of this housing as a string
      */
     public String toString() {
-        return "Pays: " + this.getCountry() + ". Surface: " + this.getSurface() + "m². Nombre de pièces: " + this.getNbRoom() + " pièces. Adresse: " + this.getAddress();
+        return "Pays: " + this.getCountry() + ". Surface: " + this.getSurface() + "m². Nombre de pièces: " + this.getNbRoom() + " pièces. addresse: " + this.getAddress();
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object == null) { return false; }
+        if (this == object) { return true; }
+
+        Housing otherHousing = (Housing) object;
+        return this.getAddress().equals(otherHousing.getAddress())
+            && this.getNbRoom() == otherHousing.getNbRoom()
+            && this.getCountry().equals(otherHousing.getCountry())
+            && this.getSurface() == otherHousing.getSurface();
     }
 }

@@ -42,11 +42,11 @@ public class Person {
      * @param firstName The person's first name
      * @param email The person's email address
      */
-    public Person (String name, String firstName, String email) {
+    public Person (String name, String firstName, String email, String rawPassword) {
         this.name=name;
         this.firstName=firstName;
         this.email=email;
-        setPassword(this.email);
+        setPassword(rawPassword);
     }
 
     public Long getId() {

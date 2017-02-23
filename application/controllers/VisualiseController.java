@@ -31,8 +31,22 @@ public class VisualiseController {
         return "home";
     }
 
-    @RequestMapping(value="/viewUser/{id}")
-    public String visualise (@PathVariable("id") long id, HttpSession session, Model model) {
+    @RequestMapping(value={"/adminPanel"})
+    public String adminPanel (HttpSession session) {
+        this.personDB.initialize();
+        Utils.initializeSession(session,this.personDB);
+        return "adminPanel";
+    }
+
+    @RequestMapping(value={"/searchProperty"})
+    public String searchProperty (HttpSession session) {
+        this.personDB.initialize();
+        Utils.initializeSession(session,this.personDB);
+        return "searchProperty";
+    }
+
+    @RequestMapping(value="/accountManagement/{id}")
+    public String accountManagement (@PathVariable("id") long id, HttpSession session, Model model) {
 
         for (Person person: (List<Person>)session.getAttribute("allPersons")) {
             if (person.getId().equals(id)) {
@@ -41,7 +55,7 @@ public class VisualiseController {
             }
         }
 
-        return "viewUser";
+        return "accountManagement";
     }
 
 }

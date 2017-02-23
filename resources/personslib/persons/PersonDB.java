@@ -181,6 +181,18 @@ public class PersonDB implements IPersonDB {
         // person.getPassword().equals(md5(password));
     }
 
+    public boolean isValid (long id, String password) {
+        Person person = null;
+        try{
+            person = find(id);
+        } catch (Exception e){
+            return false;
+        }
+        return true;
+        //TODO bug w/ md method
+        // person.getPassword().equals(md5(password));
+    }
+
     @Override
     public void update (String email, Person person) throws HibernateException {
         Person dbPerson =null;

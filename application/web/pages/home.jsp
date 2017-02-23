@@ -8,39 +8,48 @@
         <main>
             <h1>Homestay Network</h1>
 
-            <p id="test">test</p>
-
-            <h2>Tous nos utilisateurs</h2>
-
-            <c:choose>
-              <c:when test="${empty allPersons}"><p>Il n'y a pour le moment aucun utilisateur sur cette application.</p></c:when>
-              <c:otherwise>
-                <ul>
-                  <c:forEach var="person" items="${allPersons}">
-                    <li>
-                      <a href="<c:url value="view/${person.id}" />">${person.firstName} ${person.name}</a>
-                    </li> 
-                  </c:forEach>
-                </ul>
-              </c:otherwise>
-            </c:choose>
-
-            <h2>Ajouter un utilisateur</h2>
             <c:if test="${!empty message}"><p style="color:red;">${message}</p></c:if>
-            <form method="post" action="<c:url value='addUser' />">
-            <p>
-                Nom&nbsp;: 
-                <input type="text" name="name" />
+            
+            <h2>Fonctionnement de l'application</h2>
+            <p>W.I.P</p>
+
+            <c:if test="${empty activeUser}">
+              <h2>Créer un compte</h2>
+              <form method="post" action="<c:url value='addUser' />">
+              <p>
+                  Nom&nbsp;: 
+                  <input type="text" name="name" />
+                  <br />
+                  Prénom&nbsp;: 
+                  <input type="text" name="firstName" />
+                  <br />
+                  Email&nbsp;: 
+                  <input type="email" name="email" />
+                  <br />
+                  Mot de passe&nbsp;: 
+                  <input type="password" name="password" />
+                  <br />
+                  Resaisir le mot de passe&nbsp;: 
+                  <input type="password" name="equalPassword" />
                 <br />
-                Prénom&nbsp;: 
-                <input type="text" name="firstName" />
+                <input type="submit" value="Ajouter" />
+              </p>
+              </form>
+            <c:if test="${empty admin}">
+              <h2>Se connecter</h2>
+              <form method="post" action="<c:url value='connexion' />">
+              <p>
+                  Email&nbsp;: 
+                  <input type="email" name="email" />
+                  <br />
+                  Mot de passe&nbsp;: 
+                  <input type="password" name="password" />
                 <br />
-                Email&nbsp;: 
-                <input type="email" name="email" />
-              <br />
-              <input type="submit" value="Ajouter" />
-            </p>
-            </form>
+                <input type="submit" value="Envoyer" />
+              </p>
+              </form>
+            </c:if>
+            </c:if>
 
         </main>
         

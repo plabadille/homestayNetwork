@@ -136,6 +136,38 @@ public class PersonDB implements IPersonDB {
         return person;
     }
 
+    public Person find (long id) {
+        Person person = null;
+        Session session=sessionFactory.openSession();
+        try{
+            Query query=session.createQuery("from Person where id='"+id+"'");
+            person = (Person)query.uniqueResult();
+        } catch (Exception e){
+            return null;
+        } finally {
+            session.close();
+        }
+        return person;
+    }
+
+    public boolean personExist (long id) {
+        Person person = find(id);
+
+        if (person == null) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean personExist (String email) {
+        Person person = find(email);
+
+        if (person == null) {
+            return false;
+        }
+        return true;
+    }
+
     @Override
     public boolean isValid (String email, String password) {
         Person person = null;
@@ -149,30 +181,83 @@ public class PersonDB implements IPersonDB {
         // person.getPassword().equals(md5(password));
     }
 
+    public boolean isValid (long id, String password) {
+        Person person = null;
+        try{
+            person = find(id);
+        } catch (Exception e){
+            return false;
+        }
+        return true;
+        //TODO bug w/ md method
+        // person.getPassword().equals(md5(password));
+    }
+
     @Override
     public void update (String email, Person person) throws HibernateException {
         Person dbPerson =null;
         try{
-            dbPerson = find(email);
+            if (personExist(email)) {
+                Session session=sessionFactory.openSession();
+                Transaction tx = session.beginTransaction();
+                session.update(person);
+                tx.commit();
+                session.close();
+            }
         } catch (Exception e){
             throw e;
         }
-        dbPerson=person;
-        Session session=sessionFactory.openSession();
-        session.update(dbPerson);
+    }
+
+    public void update (long id, Person person) throws HibernateException {
+        Person dbPerson =null;
+        try{
+            if (personExist(id)) {
+                Session session=sessionFactory.openSession();
+                Transaction tx = session.beginTransaction();
+                session.update(person);
+                tx.commit();
+                session.close();
+            }
+        } catch (Exception e){
+            throw e;
+        }
     }
 
     @Override
     public void updatePassword (String email, String password) throws IndexOutOfBoundsException {
         Person dbPerson =null;
         try{
-            dbPerson = find(email);
+            if (personExist(email)) {
+                dbPerson = find(email);
+                dbPerson.setPassword(password);
+
+                Session session=sessionFactory.openSession();
+                Transaction tx = session.beginTransaction();
+                session.update(dbPerson);
+                tx.commit();
+                session.close();
+            }
         } catch (Exception e){
             throw e;
-        }
-        dbPerson.setPassword(password);
-        Session session=sessionFactory.openSession();
-        session.update(dbPerson);
+        }   
+    }
+    public void updatePassword (long id, String password) throws IndexOutOfBoundsException {
+        Person dbPerson =null;
+        try{
+            if (personExist(id)) {
+                dbPerson = find(id);
+                dbPerson.setPassword(password);
+
+                Session session=sessionFactory.openSession();
+                Transaction tx = session.beginTransaction();
+                session.update(dbPerson);
+                tx.commit();
+                session.close();
+            }
+        } catch (Exception e){
+            throw e;
+        }   
     }
 
     //Can bug if there is housing attached to the person, need to be verified
@@ -180,12 +265,34 @@ public class PersonDB implements IPersonDB {
     public void delete (String email) throws IndexOutOfBoundsException {
         Person dbPerson =null;
         try{
-            dbPerson = find(email);
+            if (personExist(email)) {
+                dbPerson = find(email);
+
+                Session session=sessionFactory.openSession();
+                Transaction tx = session.beginTransaction();
+                session.delete(dbPerson);
+                tx.commit();
+                session.close();
+            }
         } catch (Exception e){
             throw e;
         }
-        Session session=sessionFactory.openSession();
-        session.delete(dbPerson);
+    }
+    public void delete (long id) throws IndexOutOfBoundsException {
+        Person dbPerson =null;
+        try{
+            if (personExist(id)) {
+                dbPerson = find(id);
+                
+                Session session=sessionFactory.openSession();
+                Transaction tx = session.beginTransaction();
+                session.delete(dbPerson);
+                tx.commit();
+                session.close();
+            }
+        } catch (Exception e){
+            throw e;
+        }
     }
 
 }

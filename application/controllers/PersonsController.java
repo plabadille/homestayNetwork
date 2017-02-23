@@ -48,23 +48,25 @@ public class PersonsController {
         return "redirect:/home";
     }
 
-    //doesn't work: the user is find but the hibernate method doesn't work
-    //TO DO: debug personDB.delete(String email)
     @RequestMapping(value="/deleteUser", method=RequestMethod.GET)
-    public String addUser(@RequestParam("id") String email, HttpSession session, RedirectAttributes redirectAttributes) {
+    public String addUser(@RequestParam("id") long id, HttpSession session, RedirectAttributes redirectAttributes) {
 
         Utils.initializeSession(session,this.personDB);
         String message = null;
 
-        if (!email.isEmpty()) {
-            //we get the user
-            Person person = personDB.find(email);
+        if (personDB.personExist(id)) {
             //we delete this user in the db
-            this.personDB.delete(email);
+            this.personDB.delete(id);
             //we update the session storage
-            ((List<Person>)session.getAttribute("allPersons")).remove(person);
-            
-            message="L'utilisateur " + person.getFirstName() + " " + person.getName() + " a bien été supprimé";
+            int i = 0;
+            for (Person user: (List<Person>)session.getAttribute("allPersons")) {
+                if (user.getId().equals(id)) {
+                    ((List<Person>)session.getAttribute("allPersons")).remove(i);
+                    break;
+                }
+                i++;
+            }
+            message="L'utilisateur a bien été supprimé";
         } else {
             message="Fatal error, unknow user.";
         }
@@ -72,38 +74,42 @@ public class PersonsController {
         return "redirect:/home";
     }
 
-    //doesn't work: the user is find but the hibernate method throw exception (may be caused by long)
-    //TO DO: debug personDB.update()
     @RequestMapping(value="/viewUser/editUser", method=RequestMethod.POST)
     public String editUser(@RequestParam Map<String,String> requestParams, HttpSession session, RedirectAttributes redirectAttributes) {
         
         String name = requestParams.get("name");
         String firstName = requestParams.get("firstName");
         String email = requestParams.get("email");
-        String oldEmail = requestParams.get("oldEmail");
+        long id = Long.parseLong(requestParams.get("id"));
 
         Utils.initializeSession(session,this.personDB);
         String message = null;
-        System.out.println(name + " " +firstName+ " "+email+ " "+oldEmail );
-        if (!name.isEmpty() && !firstName.isEmpty() && !email.isEmpty() && !oldEmail.isEmpty()) {
-            System.out.println("gezgegezgezgze");
+
+        if (!name.isEmpty() && !firstName.isEmpty() && !email.isEmpty()) {
             //we create the new user
-            Person person = new Person(name, firstName, email);
-            Person beforeUpdate = this.personDB.find(oldEmail);
+            Person person = this.personDB.find(id);
+            person.setName(name);
+            person.setFirstName(firstName);
+            person.setEmail(email);
             //we add this user in the db
-            this.personDB.update(oldEmail, person);
-            System.out.println("iouifgabzhjekorgjhfijlageh");
+            this.personDB.update(id, person);
             //we update the session storage
-            ((List<Person>)session.getAttribute("allPersons")).remove(beforeUpdate);
+            int i = 0;
+            for (Person user: (List<Person>)session.getAttribute("allPersons")) {
+                if (user.getId().equals(id)) {
+                    ((List<Person>)session.getAttribute("allPersons")).remove(i);
+                    break;
+                }
+                i++;
+            }
             ((List<Person>)session.getAttribute("allPersons")).add(person);
             
             message="L'utilisateur " + firstName + " " + name + " a bien été modifié.";
-            return "redirect:/viewUser/" + email;
         } else {
             message="Il y a des erreurs dans le formulaire.";
         }
         redirectAttributes.addFlashAttribute("message",message);
-        return "redirect:/viewUser/" + oldEmail;
+        return "redirect:/viewUser/" + id;
     }
 
 }

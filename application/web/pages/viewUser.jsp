@@ -10,7 +10,8 @@
             <c:choose>
                 <c:when test="${empty user.name}"><p>Cet utilisateur n'existe pas.</p></c:when>
                 <c:otherwise>
-                    <h1>${user.firstName} ${user.name}</h2>
+                    <h1>${user.firstName} ${user.name}</h1>
+                    <c:if test="${!empty message}"><p style="color:red;">${message}</p></c:if>
                     <p>Email: ${user.email}</p>
 
                     <!-- TO DO: HOUSE BELONGING
@@ -31,13 +32,11 @@
                         Email&nbsp;: 
                         <input type="email" name="email" value="${user.email}"  />
                         <br />
-                        <input type="hidden" name="oldEmail" value="${user.email}" />
+                        <input type="hidden" name="id" value="${user.id}" />
                         <input type="submit" value="Ajouter" />
                     </p>
                     </form>
 
-                    <h2>Supression de l'utilisateur</h2>
-                    <a href="<c:url value="deleteUser?id=${person.email}" />">Supprimer</a>
                 </c:otherwise>
             </c:choose>
 

@@ -11,6 +11,9 @@ import java.util.List;
 
 public interface IHousingDB {
 
+    public void createTables() throws SQLException;
+    public void deleteTables() throws SQLException;
+
 	// "C" operations
 
     /**
@@ -18,8 +21,8 @@ public interface IHousingDB {
      * @param home The home to add
      * @throws SQLException if the argument is not an object from Housing
      */
-    public void add(Home home) throws SQLException;
-    public void add(Apartment apartment) throws SQLException;
+    public boolean add(Home home) throws SQLException;
+    public boolean add(Apartment apartment) throws SQLException;
 
     public void update(Home home) throws SQLException;
     public void update(Apartment apartment) throws SQLException;

@@ -13,6 +13,7 @@ import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
 
 public class SQLHousingDB implements IHousingDB {
@@ -41,38 +42,52 @@ public class SQLHousingDB implements IHousingDB {
         this.table = table;
 
         this.createHousingStatement = this.link.prepareStatement(
-            "INSERT INTO " + this.table + " (country, surface, nbRoom, address, gardenSurface, isApartment) VALUES(?,?,?,?,?,?)"
+            "INSERT INTO " + this.table + " (country, surface, nbRoom, address,"
+            + " gardenSurface, isApartment) VALUES(?,?,?,?,?,?)"
         );
 
         this.updateHousingStatement = this.link.prepareStatement(
-            "UPDATE " + this.table + " SET country=?, surface=?, nbRoom=?, gardenSurface=?, isApartment=? WHERE address=?"
+            "UPDATE " + this.table + " SET country=?, surface=?, nbRoom=?, "
+            + "gardenSurface=?, isApartment=? WHERE address=?"
         );
 
         this.retrieveAllHousingStatement = this.link.prepareStatement(
             "SELECT * FROM `" + this.table + "` WHERE address=?"
         );
+
+        createTables();
     }
 
     @Override
-    public void add(Home home) throws SQLException {
-        this.createHousingStatement.setString(1, home.getCountry());
-        this.createHousingStatement.setInt(2, home.getSurface());
-        this.createHousingStatement.setInt(3, home.getNbRoom());
-        this.createHousingStatement.setString(4, home.getAddress());
-        this.createHousingStatement.setInt(5, home.getGardenSurface());
-        this.createHousingStatement.setBoolean(6, false);
-        this.createHousingStatement.execute();
+    public boolean add(Home home) throws SQLException {
+        try {
+            this.createHousingStatement.setString(1, home.getCountry());
+            this.createHousingStatement.setInt(2, home.getSurface());
+            this.createHousingStatement.setInt(3, home.getNbRoom());
+            this.createHousingStatement.setString(4, home.getAddress());
+            this.createHousingStatement.setInt(5, home.getGardenSurface());
+            this.createHousingStatement.setBoolean(6, false);
+            this.createHousingStatement.execute();
+            return true;
+        } catch (MySQLIntegrityConstraintViolationException e) {
+            return false;
+        }
     }
 
     @Override
-    public void add(Apartment apartment) throws SQLException {
-        this.createHousingStatement.setString(1, apartment.getCountry());
-        this.createHousingStatement.setInt(2, apartment.getSurface());
-        this.createHousingStatement.setInt(3, apartment.getNbRoom());
-        this.createHousingStatement.setString(4, apartment.getAddress());
-        this.createHousingStatement.setInt(5, 0);
-        this.createHousingStatement.setBoolean(6, true);
-        this.createHousingStatement.execute();
+    public boolean add(Apartment apartment) throws SQLException {
+        try {
+            this.createHousingStatement.setString(1, apartment.getCountry());
+            this.createHousingStatement.setInt(2, apartment.getSurface());
+            this.createHousingStatement.setInt(3, apartment.getNbRoom());
+            this.createHousingStatement.setString(4, apartment.getAddress());
+            this.createHousingStatement.setInt(5, 0);
+            this.createHousingStatement.setBoolean(6, true);
+            this.createHousingStatement.execute();
+            return true;
+        } catch (MySQLIntegrityConstraintViolationException e) {
+            return false;
+        }
     }
 
     @Override
@@ -101,19 +116,11 @@ public class SQLHousingDB implements IHousingDB {
     // Methods
 
     /**
-     * Resets the link to the database.
-     * This method can be used in case the connection breaks down.
-     * @param link An active link to the database
-     */
-    public void setLink(Connection link) {
-        this.link = link;
-    }
-
-    /**
      * Creates the necessary table in the database. Nothing occurs if the table
      * already exists.
      * @throws SQLException if a database access error occurs
      */
+    @Override
     public void createTables() throws SQLException {
         Statement statement = this.link.createStatement();
 
@@ -144,9 +151,19 @@ public class SQLHousingDB implements IHousingDB {
 
         while (rs.next()) {
             if (!rs.getBoolean("isApartment")) {
-                res.add(new Home(rs.getString("country"), rs.getInt("surface"), rs.getInt("nbRoom"), rs.getString("address"), rs.getInt("gardenSurface")));
+                res.add(new Home(
+                    rs.getString("country"),
+                    rs.getInt("surface"),
+                    rs.getInt("nbRoom"),
+                    rs.getString("address"),
+                    rs.getInt("gardenSurface")
+                ));
             } else {
-                res.add(new Apartment(rs.getString("country"), rs.getInt("surface"), rs.getInt("nbRoom"), rs.getString("address")));
+                res.add(new Apartment(rs.getString("country"),
+                    rs.getInt("surface"),
+                    rs.getInt("nbRoom"),
+                    rs.getString("address")
+                ));
 
             }
         }
@@ -170,9 +187,20 @@ public class SQLHousingDB implements IHousingDB {
             return null;
         }
         if (!rs.getBoolean("isApartment")) {
-            return new Home(rs.getString("country"), rs.getInt("surface"), rs.getInt("nbRoom"), rs.getString("address"),rs.getInt("gardenSurface"));
+            return new Home(
+                rs.getString("country"),
+                rs.getInt("surface"),
+                rs.getInt("nbRoom"),
+                rs.getString("address"),
+                rs.getInt("gardenSurface")
+            );
         } else {
-            return new Apartment(rs.getString("country"), rs.getInt("surface"), rs.getInt("nbRoom"), rs.getString("address"));
+            return new Apartment(
+                rs.getString("country"),
+                rs.getInt("surface"),
+                rs.getInt("nbRoom"),
+                rs.getString("address")
+            );
         }
     }
 
@@ -180,6 +208,7 @@ public class SQLHousingDB implements IHousingDB {
      * Drops the table from the database. Nothing occurs if the table does not exist.
      * @throws SQLException if a database access error occurs
      */
+    @Override
     public void deleteTables() throws SQLException {
         String query="DROP TABLE IF EXISTS " + this.table;
         Statement statement=this.link.createStatement();

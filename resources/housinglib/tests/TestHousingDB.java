@@ -13,6 +13,7 @@ import housings.Apartment;
 import housings.SQLHousingDB;
 import housings.HousingsDBHandler;
 import java.sql.SQLException;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
 
 import org.junit.Test;
@@ -25,7 +26,6 @@ public class TestHousingDB {
     public void initialize() throws SQLException {
         try {
             l = HousingsDBHandler.getDb();
-						l.createTables();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -82,16 +82,17 @@ public class TestHousingDB {
 		new Home("France", 70, 4, "truc sur Megergr", -2);
 	}
 
-	@Test(expected=IllegalArgumentException.class)
+	@Test
 	public void testIllegalArgumentExceptionDoublon() throws SQLException {
 		l.add(new Home("France", 70, 4, "truc sur Megergr", 500));
-		l.add(new Home("France", 70, 4, "truc sur Megergr", 500));
+		assertFalse(l.add(new Home("France", 70, 4, "truc sur Megergr", 500)));
 	}
 
 	//Tests getAll:
 	//-------------
 	@Test
 	public void test_retrieveAllCountHouse() throws SQLException {
+        l.delete(new Home("France", 80, 5, "truc", 800));
 		int countInitHousing = l.getAll().size();
 		l.add(new Home("France", 80, 5, "truc", 800));
 		int countHousings = l.getAll().size();
@@ -101,6 +102,7 @@ public class TestHousingDB {
 
 	@Test
 	public void test_retrieveAllCountApartment() throws SQLException {
+        l.delete(new Apartment("France", 80, 5, "545f ez 1fez8 14f8zef1ez8f48 ze11 fez 1f8ze"));
 		int countInitHousing = l.getAll().size();
 		l.add(new Apartment("France", 80, 5, "545f ez 1fez8 14f8zef1ez8f48 ze11 fez 1f8ze"));
 		int countHousings = l.getAll().size();
@@ -110,6 +112,8 @@ public class TestHousingDB {
 
 	@Test
 	public void test_retrieveAllCountBoth() throws SQLException {
+        l.delete(new Home("France", 80, 5, "fez fez  787478 187fez78 1fz", 800));
+        l.delete(new Apartment("France", 80, 5, "561f89161 fze1 89f1ze 9181981"));
 		int countInitHousing = l.getAll().size();
 		l.add(new Home("France", 80, 5, "fez fez  787478 187fez78 1fz", 800));
 		l.add(new Apartment("France", 80, 5, "561f89161 fze1 89f1ze 9181981"));
@@ -157,9 +161,8 @@ public class TestHousingDB {
 		assertEquals(null, l.find("45648g1re ger81ger1 8919g1erg"));
 	}
 
-	@Test(expected=IndexOutOfBoundsException.class)
+	@Test
 	public void testIndexOutOfBoundsExceptionDelete() throws SQLException {
 		l.delete(new Apartment("Italy", 56, 4, "unknown"));
 	}
-
 }

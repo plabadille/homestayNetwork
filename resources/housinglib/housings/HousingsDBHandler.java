@@ -57,8 +57,8 @@ public class HousingsDBHandler {
         // InitialContext initialContext = new InitialContext();
         String host="localhost";
         String database="housings";
-        String username="test";
-        String password="test";
+        String username="root";
+        String password="root";
         String table="housing";
         // String host=initialContext.doLookup("java:comp/env/host");
         // String database=initialContext.doLookup("java:comp/env/database");

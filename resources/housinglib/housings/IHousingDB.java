@@ -6,18 +6,26 @@
 
 package housings;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface IHousingDB {
 
+    public void createTables() throws SQLException;
+    public void deleteTables() throws SQLException;
+
 	// "C" operations
 
     /**
-     * Adds a housing to this database.
-     * @param housing The housing to add as a housing Object
-     * @throws IllegalArgumentException if the argument is not an object from Housing
+     * Adds a house to this database.
+     * @param home The home to add
+     * @throws SQLException if the argument is not an object from Housing
      */
-    public void create(Housing housing) throws IllegalArgumentException;
+    public boolean add(Home home) throws SQLException;
+    public boolean add(Apartment apartment) throws SQLException;
+
+    public void update(Home home) throws SQLException;
+    public void update(Apartment apartment) throws SQLException;
 
     // "R" operations
 
@@ -25,29 +33,17 @@ public interface IHousingDB {
      * Return each housing present in the database
      * @return An array of housing present in the database
      */
-    public List<Housing> getAll();
-
-    /**
-     * Return if a housing exist or not in the database
-     * @param housing The housing to check as a housing Object
-     * @return A boolean
-     */
-    public boolean exist(Housing housing);
+    public List<Housing> getAll() throws SQLException;
 
     /**
      * Return a housing if it exist in the database
      * @param address housing The housing address to search
      * @return The housing if it exist or null
+     * @throws SQLException
      */
-    public Housing find(String address);
+    public Housing find(String address) throws SQLException;
 
     // "D" operations
 
-    /**
-     * Delete a housing (identified by his adress) if it exist in the database
-     * @param address housing The housing address to search
-     * @throws IndexOutOfBoundsException if the argument is not find in the database
-     */
-    public void delete (String address) throws IndexOutOfBoundsException;
-
+    public void delete(Housing housing) throws SQLException;
 }

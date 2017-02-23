@@ -33,6 +33,10 @@
   <jar basedir="build" excludes="tests/**" destfile="dist/persons.jar" />
 </target>
 
+<target name="deploy" depends="init,compile">
+  <jar basedir="build" excludes="tests/**" destfile="../../application/lib/persons.jar" />
+</target>
+
 <target name="doc" depends="init,compile">
   <javadoc packagenames="persons" sourcepath="." destdir="doc" />
 </target>

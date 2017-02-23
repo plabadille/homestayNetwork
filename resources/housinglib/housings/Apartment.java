@@ -22,6 +22,6 @@ public class Apartment extends Housing {
      * @return A representation of this apartment as a string
      */
     public String toString() {
-        return "Ce logement est un appartement.\n" + super.toString();
+        return "Ce logement est un apartment.\n" + super.toString();
     }
 }

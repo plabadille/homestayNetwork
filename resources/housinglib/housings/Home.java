@@ -24,20 +24,20 @@ public class Home extends Housing {
         } else {
             throw new IllegalArgumentException();
         }
-
     }
+
     /**
      * Returns the house garden surface.
      * @return The house garden surface
      */
-    public int getSurfaceJardin() {
+    public int getGardenSurface() {
         return this.gardenSurface;
     }
     /**
      * Change the house garden surface.
      * @param gardenSurface The new house garden surface as a double
      */
-    public void setSurfaceJardin(int gardenSurface) {
+    public void setGardenSurface(int gardenSurface) {
         this.gardenSurface = gardenSurface;
     }
     /**
@@ -45,6 +45,6 @@ public class Home extends Housing {
      * @return A representation of this house as a string
      */
     public String toString() {
-        return "Ce logement est une maison.\n" + super.toString() + "\n Jardin d'une surface de " + this.getSurfaceJardin() + "m².";
+        return "Ce logement est une maison.\n" + super.toString() + "\n Jardin d'une surface de " + this.getGardenSurface() + "m².";
     }
 }

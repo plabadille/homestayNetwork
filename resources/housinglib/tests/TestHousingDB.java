@@ -8,22 +8,36 @@ package tests;
 
 import static org.junit.Assert.*;
 
-import housings.Apartment;
-import housings.HousingDBStub;
 import housings.Home;
+import housings.Apartment;
+import housings.SQLHousingDB;
+import housings.HousingsDBHandler;
+import java.sql.SQLException;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
+
 
 import org.junit.Test;
+import org.junit.Before;
 
 public class TestHousingDB {
-	protected static HousingDBStub l = new HousingDBStub();
+	protected static SQLHousingDB l;
+
+    @Before
+    public void initialize() throws SQLException {
+        try {
+            l = HousingsDBHandler.getDb();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
 	//Test d'ajout d'apartment:
 	//---------------------------
 	@Test
-	public void test_existApartment() {
+	public void test_existApartment() throws SQLException {
 		Apartment apartment = new Apartment("France", 80, 4, "truc sur Mer");
-		l.create(apartment);
-		assertEquals(true, l.exist(apartment));
+		l.add(apartment);
+		assertNotNull(l.find(apartment.getAddress()));
 	}
 
 	@Test(expected=IllegalArgumentException.class)
@@ -40,17 +54,17 @@ public class TestHousingDB {
 	//-----------------------
 
 	@Test
-	public void test_existHome() {
+	public void test_existHome() throws SQLException {
 		Home home = new Home("France", 75, 4, "truc  ger sur Lac", 200);
-		l.create(home);
-		assertEquals(true, l.exist(home));
+		l.add(home);
+		assertNotNull(l.find(home.getAddress()));
 	}
 
 	@Test
-	public void test_existHomeWithoutGarden() {
+	public void test_existHomeWithoutGarden() throws SQLException {
 		Home home = new Home("France", 75, 4, "trucge gesur Lac", 0);
-		l.create(home);
-		assertEquals(true, l.exist(home));
+		l.add(home);
+		assertNotNull(l.find(home.getAddress()));
 	}
 
 	@Test(expected=IllegalArgumentException.class)
@@ -68,37 +82,41 @@ public class TestHousingDB {
 		new Home("France", 70, 4, "truc sur Megergr", -2);
 	}
 
-	@Test(expected=IllegalArgumentException.class)
-	public void testIllegalArgumentExceptionDoublon() {
-		l.create(new Home("France", 70, 4, "truc sur Megergr", 500));
-		l.create(new Home("France", 70, 4, "truc sur Megergr", 500));
+	@Test
+	public void testIllegalArgumentExceptionDoublon() throws SQLException {
+		l.add(new Home("France", 70, 4, "truc sur Megergr", 500));
+		assertFalse(l.add(new Home("France", 70, 4, "truc sur Megergr", 500)));
 	}
 
 	//Tests getAll:
 	//-------------
 	@Test
-	public void test_retrieveAllCountHouse() {
+	public void test_retrieveAllCountHouse() throws SQLException {
+        l.delete(new Home("France", 80, 5, "truc", 800));
 		int countInitHousing = l.getAll().size();
-		l.create(new Home("France", 80, 5, "truc", 800));
+		l.add(new Home("France", 80, 5, "truc", 800));
 		int countHousings = l.getAll().size();
 
 		assertEquals(countInitHousing + 1, countHousings);
 	}
 
 	@Test
-	public void test_retrieveAllCountApartment() {
+	public void test_retrieveAllCountApartment() throws SQLException {
+        l.delete(new Apartment("France", 80, 5, "545f ez 1fez8 14f8zef1ez8f48 ze11 fez 1f8ze"));
 		int countInitHousing = l.getAll().size();
-		l.create(new Apartment("France", 80, 5, "545f ez 1fez8 14f8zef1ez8f48 ze11 fez 1f8ze"));
+		l.add(new Apartment("France", 80, 5, "545f ez 1fez8 14f8zef1ez8f48 ze11 fez 1f8ze"));
 		int countHousings = l.getAll().size();
 
 		assertEquals(countInitHousing + 1, countHousings);
 	}
 
 	@Test
-	public void test_retrieveAllCountBoth() {
+	public void test_retrieveAllCountBoth() throws SQLException {
+        l.delete(new Home("France", 80, 5, "fez fez  787478 187fez78 1fz", 800));
+        l.delete(new Apartment("France", 80, 5, "561f89161 fze1 89f1ze 9181981"));
 		int countInitHousing = l.getAll().size();
-		l.create(new Home("France", 80, 5, "fez fez  787478 187fez78 1fz", 800));
-		l.create(new Apartment("France", 80, 5, "561f89161 fze1 89f1ze 9181981"));
+		l.add(new Home("France", 80, 5, "fez fez  787478 187fez78 1fz", 800));
+		l.add(new Apartment("France", 80, 5, "561f89161 fze1 89f1ze 9181981"));
 		int countHousings = l.getAll().size();
 
 		assertEquals(countInitHousing + 2, countHousings);
@@ -107,45 +125,44 @@ public class TestHousingDB {
 	//Tests find:
 	//-----------
 	@Test
-	public void test_findApartmentExist() {
+	public void test_findApartmentExist() throws SQLException {
 		Apartment apartment = new Apartment("France", 80, 5, "jfezh ,lfa 55 faz");
-		l.create(apartment);
+		l.add(apartment);
 		assertEquals(apartment, l.find("jfezh ,lfa 55 faz"));
 	}
 
 	@Test
-	public void test_findHomeExist() {
+	public void test_findHomeExist() throws SQLException {
 		Home home = new Home("France", 80, 5, "la la 80 , truc", 800);
-		l.create(home);
+		l.add(home);
 		assertEquals(home, l.find("la la 80 , truc"));
 	}
 
 	@Test
-	public void test_findhousingWitchDontExist() {
+	public void test_findhousingWitchDontExist() throws SQLException {
 		assertEquals(null, l.find("trugfaigho 258645 gagkjkjehgl 561ga ofnia"));
 	}
 
 	//Tests delete:
 	//-------------
 	@Test
-	public void test_deleteApartment() {
+	public void test_deleteApartment() throws SQLException {
 		Apartment apartment = new Apartment("France", 80, 5, "fze 158935fz5ef82fze4fezf218fz8");
-		l.create(apartment);
+		l.add(apartment);
 		l.delete(apartment);
 		assertEquals(null, l.find("fze 158935fz5ef82fze4fezf218fz8"));
 	}
 
 	@Test
-	public void test_deleteHome() {
+	public void test_deleteHome() throws SQLException {
 		Home home = new Home("France", 80, 5, "45648g1re ger81ger1 8919g1erg", 800);
-		l.create(home);
+		l.add(home);
 		l.delete(home);
 		assertEquals(null, l.find("45648g1re ger81ger1 8919g1erg"));
 	}
 
-	@Test(expected=IndexOutOfBoundsException.class)
-	public void testIndexOutOfBoundsExceptionDelete() {
+	@Test
+	public void testIndexOutOfBoundsExceptionDelete() throws SQLException {
 		l.delete(new Apartment("Italy", 56, 4, "unknown"));
 	}
-
 }

@@ -3,8 +3,6 @@
 
 <jsp:include page="fragments/header.jsp"/>
 
-<jsp:include page="fragments/nav.jsp"/>
-
 <main>
   <h1>Rechercher une propriété</h1>
   <c:choose>

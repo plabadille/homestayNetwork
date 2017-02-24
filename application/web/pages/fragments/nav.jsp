@@ -1,6 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <nav>
-  <p>La navigation</p>
   <ul>
     <li><a href="<c:url value='/home' />" title="">Accueil</a></li>
     <c:if test="${!empty activeUser}">

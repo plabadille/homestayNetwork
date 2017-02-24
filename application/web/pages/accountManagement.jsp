@@ -3,8 +3,6 @@
 
 <jsp:include page="fragments/header.jsp"/>
 
-<jsp:include page="fragments/nav.jsp"/>
-
 <main>
 
   <h1>Gestion de votre compte</h1>
@@ -22,10 +20,11 @@
         <li>Nom: ${user.name}</li>
         <li>Email: ${user.email}</li>
       </ul>
-
+      <hr/>
       <h2>Mes propriété(s):</h2>
       <p>W.I.P</p>
 
+      <hr/>
       <h2>Ajouter une propriété:</h2>
       <form method="post" action="<c:url value='/addHousing' />">
         <p>
@@ -39,6 +38,7 @@
         </p>
       </form>
 
+      <hr/>
       <h2>Editer mes informations</h2>
       <form method="post" action="<c:url value='editUser' />">
         <p>
@@ -50,6 +50,7 @@
         </p>
       </form>
 
+      <hr/>
       <h2>Changer mon mot de passe</h2>
       <form method="post" action="<c:url value='updatePassword' />">
         <p>

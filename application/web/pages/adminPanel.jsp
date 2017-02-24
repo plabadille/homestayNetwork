@@ -3,8 +3,6 @@
 
 <jsp:include page="fragments/header.jsp"/>
 
-<jsp:include page="fragments/nav.jsp"/>
-
 <main>
   <h1>Pannel d'administration</h1>
   <c:if test="${empty admin}">

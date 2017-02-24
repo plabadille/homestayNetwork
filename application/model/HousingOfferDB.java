@@ -57,7 +57,7 @@ public class HousingOfferDB {
     */
     public void create(HousingOffer hOffer) throws IllegalArgumentException {
         Session session = sessionFactory.openSession();
-        Query query=session.createQuery("from Offer");
+        Query query=session.createQuery("from offer");
         Transaction transaction=null;
 
         try {
@@ -85,7 +85,7 @@ public class HousingOfferDB {
         Collection<HousingOffer> allOffers = null;
 
         try {
-            Query query=session.createQuery("from Offer");
+            Query query=session.createQuery("from offer");
             Collection<HousingOffer> allHousing = (List<HousingOffer>)query.list();
 
             if (!allHousing.isEmpty()) {
@@ -115,7 +115,7 @@ public class HousingOfferDB {
         Collection<HousingOffer> allOffers = null;
 
         try {
-            Query query=session.createQuery("from Offer");
+            Query query=session.createQuery("from offer");
             Collection<HousingOffer> allHousing =(List<HousingOffer>)query.list();
 
             if (!allHousing.isEmpty()) {
@@ -145,7 +145,7 @@ public class HousingOfferDB {
         List<HousingOffer> housing = null;
 
         try{
-            Query query=session.createQuery("from Offer where idOwner='"+id+"'");
+            Query query=session.createQuery("from offer where idOwner='"+id+"'");
             housing = (List<HousingOffer>)query.list();
         } catch (Exception e){
             throw e;
@@ -168,7 +168,7 @@ public class HousingOfferDB {
         List<HousingOffer> housingReservation = null;
 
         try{
-            Query query=session.createQuery("from Offer where idGuest='"+id+"'");
+            Query query=session.createQuery("from offer where idGuest='"+id+"'");
             housingReservation = (List<HousingOffer>)query.list();
         } catch (Exception e){
             throw e;

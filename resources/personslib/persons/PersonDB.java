@@ -7,6 +7,7 @@ import java.util.regex.*;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Query;
@@ -19,26 +20,17 @@ import org.hibernate.service.ServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 /**
- * A stub for interface IPersonDB, which does provide RAM persistency but no long-term persistency.
- * @author Charlotte Lecluze and Bruno Zanuttini, Universit&eacute; de Caen Basse-Normandie, France
- * @since February, 2013
+ *  A Database manager based on Hibernate for managing Persons
+ * @since February, 2017
  */
 public class PersonDB implements IPersonDB {
 
-    /** The list of persons itself (without passwords). */
-    protected List<Person> persons;
-
-    /** A list of passwords, in the same order as associated persons in {@link #persons}. */
-    protected List<String> passwords;
-
     private SessionFactory sessionFactory;
+
     /**
-     * Builds a new list of persons for testing.
-     * @author Pierre Labadille, Yoann Boyer
-     */
-
-
-    // Handling Hibernate sessions ===================================================
+    * Handling Hibernate sessions
+    * @throw InvalidMappingException
+    */
     @Override
 	public void initialize () throws InvalidMappingException {
         ServiceRegistry serviceRegistry = null;
@@ -54,12 +46,21 @@ public class PersonDB implements IPersonDB {
         }
     }
 
+    /**
+    * Close Hibernate session
+    * @throw HibernateException
+    */
     protected void close () throws HibernateException {
         if (this.sessionFactory!=null) {
             this.sessionFactory.close();
         }
     }
 
+    /**
+    * Create a new entry in db
+    * @throw IllegalArgumentException
+    * @param <Person>
+    */
     @Override
     public void create (Person p) throws IllegalArgumentException {
         Session session = sessionFactory.openSession();

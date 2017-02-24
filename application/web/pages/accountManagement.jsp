@@ -28,9 +28,9 @@
       <h2>Ajouter une propriété:</h2>
       <form method="post" action="<c:url value='/addHousing' />">
         <p>
-          <div>Surface: <input type="number" value="0" name="surface" required></div>
-          <div>Nombre de pièces: <input type="number" value="0" name="nbRoom" required></div>
-          <div>Surface du jardin: <input type="number" value="0" name="gardenSurface" required></div>
+          <div>Surface: <input type="number" value="0" min="0" name="surface" required></div>
+          <div>Nombre de pièces: <input type="number" value="0" min="0" name="nbRoom" required></div>
+          <div>Surface du jardin: <input type="number" value="0" min="0" name="gardenSurface" required></div>
           <div>Appartement ? <input type="checkbox" name="isApartment"></div>
           <div>Adresse: <input type="text" name="address" required></div>
           <div>Pays: <input type="text" name="country" required></div>

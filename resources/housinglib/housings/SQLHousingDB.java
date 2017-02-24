@@ -60,7 +60,7 @@ public class SQLHousingDB implements IHousingDB {
             "DELETE FROM " + this.table + " WHERE id=?"
         );
 
-        createTables();
+        createTable();
     }
 
     @Override
@@ -119,16 +119,8 @@ public class SQLHousingDB implements IHousingDB {
         this.createHousingStatement.execute();
     }
 
-
-    // Methods
-
-    /**
-     * Creates the necessary table in the database. Nothing occurs if the table
-     * already exists.
-     * @throws SQLException if a database access error occurs
-     */
     @Override
-    public void createTables() throws SQLException {
+    public void createTable() throws SQLException {
         Statement statement = this.link.createStatement();
 
         String query="CREATE TABLE IF NOT EXISTS " + this.table + " (";
@@ -145,12 +137,6 @@ public class SQLHousingDB implements IHousingDB {
         statement.execute(query);
     }
 
-
-    /**
-     * Retrieves all the housings in the database.
-     * @return A list of all housings in the database
-     * @throws SQLException if a database access error occurs
-     */
     @Override
     public List<Housing> getAll() throws SQLException {
         String query="SELECT * FROM " + this.table;
@@ -182,13 +168,6 @@ public class SQLHousingDB implements IHousingDB {
         return res;
     }
 
-    /**
-     * Retrieves a housing in the database.
-     * @param name The name of the housing
-     * @return A housing, or null if none with the given name exists in the
-     *         database
-     * @throws SQLException if a database access error occurs
-     */
     @Override
     public Housing find(String address) throws SQLException {
         this.retrieveAllHousingStatement.setString(1, address);
@@ -217,22 +196,13 @@ public class SQLHousingDB implements IHousingDB {
         }
     }
 
-    /**
-     * Drops the table from the database. Nothing occurs if the table does not exist.
-     * @throws SQLException if a database access error occurs
-     */
     @Override
-    public void deleteTables() throws SQLException {
+    public void deleteTable() throws SQLException {
         String query="DROP TABLE IF EXISTS " + this.table;
         Statement statement=this.link.createStatement();
         statement.execute(query);
     }
 
-    /**
-     * Deletes a housing. Nothing occurs in case the housing does not exist in the database.
-     * @param housing The housing
-     * @throws SQLException if a database access error occurs
-     */
     @Override
     public void delete(Housing housing) throws SQLException {
         this.deleteHousingStatement.setInt(1, housing.getId());

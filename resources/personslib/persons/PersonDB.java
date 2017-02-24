@@ -171,27 +171,39 @@ public class PersonDB implements IPersonDB {
 
     @Override
     public boolean isValid (String email, String password) {
-        Person person = null;
+      Person person = null;
+      System.out.println("pass "+ password);
         try{
             person = find(email);
         } catch (Exception e){
             return false;
         }
-        return true;
+        //return true;
         //TODO bug w/ md method
-        // person.getPassword().equals(md5(password));
+        boolean check = BCrypt.checkpw(password, person.getPassword());
+        System.out.println("hash "+ check);
+        System.out.println("userhash "+ person.getPassword());
+        if (check)
+          return true;
+        else
+          return false;
     }
 
     public boolean isValid (long id, String password) {
         Person person = null;
+        System.out.println("pass "+ password);
         try{
             person = find(id);
         } catch (Exception e){
             return false;
         }
-        return true;
-        //TODO bug w/ md method
-        // person.getPassword().equals(md5(password));
+        boolean check = BCrypt.checkpw(password, person.getPassword());
+        System.out.println("hash "+ check);
+        System.out.println("userhash "+ person.getPassword());
+         if (check)
+           return true;
+         else
+          return false;
     }
 
     @Override
@@ -241,7 +253,7 @@ public class PersonDB implements IPersonDB {
             }
         } catch (Exception e){
             throw e;
-        }   
+        }
     }
     public void updatePassword (long id, String password) throws IndexOutOfBoundsException {
         Person dbPerson =null;
@@ -258,7 +270,7 @@ public class PersonDB implements IPersonDB {
             }
         } catch (Exception e){
             throw e;
-        }   
+        }
     }
 
     //Can bug if there is housing attached to the person, need to be verified
@@ -284,7 +296,7 @@ public class PersonDB implements IPersonDB {
         try{
             if (personExist(id)) {
                 dbPerson = find(id);
-                
+
                 Session session=sessionFactory.openSession();
                 Transaction tx = session.beginTransaction();
                 session.delete(dbPerson);

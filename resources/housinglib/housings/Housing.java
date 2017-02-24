@@ -6,7 +6,8 @@
 
 package housings;
 
-public class Housing {
+public abstract class Housing {
+    protected int id;
     /** The housing country */
     protected String country;
     /** The housing surface */
@@ -16,6 +17,10 @@ public class Housing {
     /** The housing address */
     protected String address;
 
+    public Housing(String country, int surface, int nbRoom, String address) {
+        this(-1, country, surface, nbRoom, address);
+    }
+
     /**
      * Builds a new housing.
      * @param country The housing country
@@ -23,7 +28,8 @@ public class Housing {
      * @param nbRoom The housing nb of rooms
      * @param address The housing address
      */
-    public Housing(String country, int surface, int nbRoom, String address) {
+    public Housing(int id, String country, int surface, int nbRoom, String address) {
+        this.id = id;
         this.country = country;
         if (surface > 0) {
             this.surface = surface;
@@ -36,6 +42,14 @@ public class Housing {
             throw new IllegalArgumentException();
         }
         this.address = address;
+    }
+
+    /**
+     * Get the id
+     * @return The id
+     */
+    public int getId() {
+        return this.id;
     }
 
     /**

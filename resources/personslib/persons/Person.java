@@ -46,7 +46,8 @@ public class Person {
         this.name=name;
         this.firstName=firstName;
         this.email=email;
-        setPassword(rawPassword);
+        System.out.println("rawpass "+ rawPassword);
+        this.password = BCrypt.hashpw(rawPassword,"$2a$10$uk.6XVzc.FdIAxBcvlOSquglioTN.0JUcqpp72BvY5Si.YMFRv0se");
     }
 
     public Long getId() {
@@ -111,8 +112,8 @@ public class Person {
     /**
      * Set the password
      */
-    public void setPassword(String email){
-        this.password = passFromEmail(email);
+    public void setPassword(String password){
+      this.password = password;
     }
 
     /**
@@ -128,30 +129,30 @@ public class Person {
      * @author Pierre Labadille
      * @since November, 2016
      */
-    public String passFromEmail(String email) {
-
-    	if(null == email) return null;
-
-    	//gen password first Word before a special carak
-    	Pattern r = Pattern.compile("^\\w*");
-    	Matcher m = r.matcher(email);
-
-    	if (m.find()) {
-    		//hash the generated password
-    		String password = m.group(0);
-    		String hash = md5(password);
-    		return hash;
-    	} else {
-    		throw new IllegalArgumentException("Cannot generating password: email format issue: " + email);
-    	}
-    }
+    // public String passFromEmail(String email) {
+    //
+    // 	if(null == email) return null;
+    //
+    // 	//gen password first Word before a special carak
+    // 	Pattern r = Pattern.compile("^\\w*");
+    // 	Matcher m = r.matcher(email);
+    //
+    // 	if (m.find()) {
+    // 		//hash the generated password
+    // 		String password = m.group(0);
+    // 		String hash = md5(password);
+    // 		return hash;
+    // 	} else {
+    // 		throw new IllegalArgumentException("Cannot generating password: email format issue: " + email);
+    // 	}
+    // }
 
     /**
      * Create a password hash from a specific password
      * @author Viral Patel
      * @since June, 2012
      */
-    public String md5(String input) {
+    public static String md5(String input) {
 		String md5 = null;
 
 		if(null == input) return null;

@@ -56,10 +56,6 @@ public class ConnectionController {
     public String userDisconection(HttpSession session) {
         if (Utils.isConnected(session)) {
             Utils.disconectUser(session);
-            if ((boolean)session.getAttribute("admin")) {
-                Utils.disconectAdmin(session);
-                return "redirect:/adminPanel";
-            }
         } else if ((boolean)session.getAttribute("admin")) {
             Utils.disconectAdmin(session);
             return "redirect:/adminPanel";

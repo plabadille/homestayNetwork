@@ -3,7 +3,8 @@ package model;
 import java.util.Date;
 
 /**
- * A class for representing housing offer with a begin and end date, the owner id, the housing id and when booked the guest id.
+ * A class for representing housing offer with the housing and owner id. It has 3 different state
+ * State 1: exist (housing and owner id), state 2: available (begin and end date are fulfiled), state 3: booked (the idGuest is fulfiled)
  * @since February, 2017
  */
 public class HousingOffer {
@@ -13,36 +14,63 @@ public class HousingOffer {
     protected long idHousing;
     protected long idOwner;
     protected long idGuest;
+    protected Long id;
 
     /**
-     * Build a new housing offer associated with a owner and his house.
-     * When idGuest is null it's mean there's no user who take the offer. By default idGuest is always null.
-     * @param beginDate The timestamp of when the offer start
-     * @param endDate The timestamp of when the offer end
+     * Empty constructor for hibernate
+     */
+    public HousingOffer()
+    {
+    }
+
+    /**
+     * Build a house with a person.
      * @param idHousing The id of the house
      * @param idOwner The id of the house owner
      */
-    public HousingOffer(long beginDate, long endDate, long idHousing, long idOwner) {
-        this.beginDate = beginDate;
-        this.endDate = endDate;
+    public HousingOffer(long idHousing, long idOwner) {
         this.idHousing = idHousing;
         this.idOwner = idOwner;
+        //nonsens value for check the state of the offer:
+        this.beginDate = -1;
+        this.endDate = -1;
         this.idGuest = -1;
     }
 
     /**
+     * Return the id of the housing offer
+     * @return <Long> id
+     */
+    public Long getId() {
+        return id;
+    }
+    /**
+     * Set the id of the housing offer (only use by hybernate)
+     * @param <Long> id
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+    /**
      * Return the timestamp of when the offer start
      * @return <long> timestamp
      */
-    public long getBeginTimestamp() {
+    public long getBeginDate() {
         return this.beginDate;
+    }
+    /**
+     * set the timestamp of when the offer start
+     * @param <long> timestamp
+     */
+    public void setBeginDate(long timestamp) {
+        this.beginDate = timestamp;
     }
     /**
      * Return the timestamp of when the offer start
      * @return <Date> Date
      */
-    public Date getBeginDate() {
-        return new Date(this.beginDate);
+    public Date getBeginDateObject() {
+        return this.beginDate != -1 ? new Date(this.beginDate) : null;
     }
     /**
      * Return the timestamp of when the offer end
@@ -52,11 +80,18 @@ public class HousingOffer {
         return this.endDate;
     }
     /**
+     * set the timestamp of when the offer end
+     * @param <long> timestamp
+     */
+    public void setEndDate(long timestamp) {
+        this.beginDate = timestamp;
+    }
+    /**
      * Return the date of when the offer finish
      * @return <Date> Date
      */
     public Date getEndDate() {
-        return new Date(this.endDate);
+        return this.endDate != -1 ? new Date(this.endDate) : null;
     }
     /**
      * Return id of the house in db
@@ -79,7 +114,6 @@ public class HousingOffer {
     public long getIdGuest() {
         return this.idGuest;
     }
-
     /**
      * Set the guest id
      * @param <long> the guest id
@@ -87,13 +121,26 @@ public class HousingOffer {
     public void setIdGuest(long idGuest) {
         this.idGuest = idGuest;
     }
-
     /**
-     * Set the guest id
-     * @param <long> the guest id
+     * Check if the housingOffer is in state 2 (offer but no guest)
+     * @return <boolean>
+     */
+    public boolean isRegistred() {
+        return (this.idGuest == -1 && this.beginDate == -1);
+    }
+    /**
+     * Check if the housingOffer is in state 2 (offer but no guest)
+     * @return <boolean>
      */
     public boolean isAvailable() {
-        return this.idOwner == -1;
+        return (this.idGuest == -1 && this.beginDate != -1);
+    }
+    /**
+     * Check if the housingOffer is in state 3 (offer and reservation)
+     * @return <boolean>
+     */
+    public boolean isBooked() {
+        return (this.beginDate != -1 && this.idGuest != -1);
     }
 
 }

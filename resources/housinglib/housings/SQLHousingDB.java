@@ -27,6 +27,7 @@ public class SQLHousingDB implements IHousingDB {
 
     /** A prepared statement for retrieval of one housing. */
     private PreparedStatement retrieveAllHousingStatement;
+    private PreparedStatement deleteHousingStatement;
 
     /** A link to the database. */
     protected Connection link;
@@ -48,11 +49,15 @@ public class SQLHousingDB implements IHousingDB {
 
         this.updateHousingStatement = this.link.prepareStatement(
             "UPDATE " + this.table + " SET country=?, surface=?, nbRoom=?, "
-            + "gardenSurface=?, isApartment=? WHERE address=?"
+            + "gardenSurface=?, isApartment=?, address=? WHERE id=?"
         );
 
         this.retrieveAllHousingStatement = this.link.prepareStatement(
-            "SELECT * FROM `" + this.table + "` WHERE address=?"
+            "SELECT * FROM " + this.table + " WHERE id=?"
+        );
+
+        this.deleteHousingStatement = this.link.prepareStatement(
+            "DELETE FROM " + this.table + " WHERE id=?"
         );
 
         createTables();
@@ -98,6 +103,7 @@ public class SQLHousingDB implements IHousingDB {
         this.updateHousingStatement.setInt(4, home.getGardenSurface());
         this.updateHousingStatement.setBoolean(5, false);
         this.updateHousingStatement.setString(6, home.getCountry());
+        this.updateHousingStatement.setInt(7, home.getId());
         this.createHousingStatement.execute();
     }
 
@@ -109,6 +115,7 @@ public class SQLHousingDB implements IHousingDB {
         this.updateHousingStatement.setString(4, apartment.getAddress());
         this.updateHousingStatement.setInt(5, 0);
         this.updateHousingStatement.setBoolean(6, true);
+        this.updateHousingStatement.setInt(7, apartment.getId());
         this.createHousingStatement.execute();
     }
 
@@ -125,6 +132,7 @@ public class SQLHousingDB implements IHousingDB {
         Statement statement = this.link.createStatement();
 
         String query="CREATE TABLE IF NOT EXISTS " + this.table + " (";
+        query += " id int NOT NULL AUTO_INCREMENT,";
         query += " country VARCHAR(100) NOT NULL,";
         query += " surface INT NOT NULL,";
         query += " nbRoom INT NOT NULL,";
@@ -152,6 +160,7 @@ public class SQLHousingDB implements IHousingDB {
         while (rs.next()) {
             if (!rs.getBoolean("isApartment")) {
                 res.add(new Home(
+                    rs.getInt("id"),
                     rs.getString("country"),
                     rs.getInt("surface"),
                     rs.getInt("nbRoom"),
@@ -159,7 +168,9 @@ public class SQLHousingDB implements IHousingDB {
                     rs.getInt("gardenSurface")
                 ));
             } else {
-                res.add(new Apartment(rs.getString("country"),
+                res.add(new Apartment(
+                    rs.getInt("id"),
+                    rs.getString("country"),
                     rs.getInt("surface"),
                     rs.getInt("nbRoom"),
                     rs.getString("address")
@@ -188,6 +199,7 @@ public class SQLHousingDB implements IHousingDB {
         }
         if (!rs.getBoolean("isApartment")) {
             return new Home(
+                rs.getInt("id"),
                 rs.getString("country"),
                 rs.getInt("surface"),
                 rs.getInt("nbRoom"),
@@ -196,6 +208,7 @@ public class SQLHousingDB implements IHousingDB {
             );
         } else {
             return new Apartment(
+                rs.getInt("id"),
                 rs.getString("country"),
                 rs.getInt("surface"),
                 rs.getInt("nbRoom"),
@@ -222,7 +235,7 @@ public class SQLHousingDB implements IHousingDB {
      */
     @Override
     public void delete(Housing housing) throws SQLException {
-        String query="DELETE FROM " + this.table + " WHERE address=\"" + housing.getAddress() + "\"";
-        this.link.createStatement().execute(query);
+        this.deleteHousingStatement.setInt(1, housing.getId());
+        this.deleteHousingStatement.execute();
     }
 }

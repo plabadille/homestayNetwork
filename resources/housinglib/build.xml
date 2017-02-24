@@ -2,11 +2,11 @@
 <project name="housingLib" default="dist">
 
     <path id="junit">
-        <pathelement path="/home/yboyer/Documents/TAF/homestaynetwork/resources/housinglib/junit-4.10.jar"/>
+        <pathelement path="junit-4.10.jar"/>
     </path>
 
     <path id="jdbc">
-        <pathelement path="/home/yboyer/Documents/TAF/homestaynetwork/resources/housinglib/mysql-connector-java-5.1.40-bin.jar"/>
+        <pathelement path="mysql-connector-java-5.1.40-bin.jar"/>
     </path>
 
     <path id="combined">
@@ -15,7 +15,7 @@
     </path>
 
     <target name="compile" depends="init">
-        <javac srcdir="." destdir="build" includeantruntime="false">
+        <javac srcdir="." destdir="build" classpathref="combined" includeantruntime="false">
             <include name="housings/**/*.java"/>
         </javac>
     </target>
@@ -32,6 +32,10 @@
         <javac srcdir="." destdir="build" classpath="build" classpathref="combined" includeantruntime="false">
             <include name="tests/**/*.java"/>
         </javac>
+    </target>
+
+    <target name="deploy" depends="compile">
+        <jar basedir="build" excludes="tests/**" destfile="../../application/lib/housings.jar"/>
     </target>
 
     <target name="test" depends="compiletest">

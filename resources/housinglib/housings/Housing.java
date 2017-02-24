@@ -17,16 +17,13 @@ public abstract class Housing {
     /** The housing address */
     protected String address;
 
-    public Housing(String country, int surface, int nbRoom, String address) {
-        this(-1, country, surface, nbRoom, address);
-    }
-
     /**
      * Builds a new housing.
-     * @param country The housing country
-     * @param surface The housing surface
-     * @param nbRoom The housing nb of rooms
-     * @param address The housing address
+     * @param id The id
+     * @param country The country
+     * @param surface The surface
+     * @param nbRoom The nb of rooms
+     * @param address The address
      */
     public Housing(int id, String country, int surface, int nbRoom, String address) {
         this.id = id;
@@ -44,6 +41,10 @@ public abstract class Housing {
         this.address = address;
     }
 
+    public Housing(String country, int surface, int nbRoom, String address) {
+        this(-1, country, surface, nbRoom, address);
+    }
+
     /**
      * Get the id
      * @return The id
@@ -53,65 +54,70 @@ public abstract class Housing {
     }
 
     /**
-     * Returns the housing country.
-     * @return The housing country
+     * Returns the country.
+     * @return The country
      */
     public String getCountry() {
         return this.country;
     }
+
     /**
-     * Change the housing country.
-     * @param country The new housing country as a String
+     * Change the country.
+     * @param country The country
      */
     public void setCountry(String country) {
         this.country = country;
     }
+
     /**
-     * Returns the housing surface.
-     * @return The housing surface
+     * Returns the surface.
+     * @return The surface
      */
     public int getSurface() {
         return this.surface;
     }
+
     /**
-     * Change the housing surface.
-     * @param surface The new housing surface as a double
+     * Change the surface.
+     * @param surface The surface
      */
     public void setSurface(int surface) {
         this.surface = surface;
     }
+
     /**
-     * Returns the housing nb of rooms.
-     * @return The housing nb of rooms
+     * Returns the nb of rooms.
+     * @return The nb of rooms
      */
     public int getNbRoom() {
         return this.nbRoom;
     }
+
     /**
-     * Change the housing nb of rooms.
-     * @param nbRoom The new housing nb of rooms as an int
+     * Change the nb of rooms.
+     * @param nbRoom The nb of rooms
      */
     public void setNbRoom(int nbRoom) {
         this.nbRoom = nbRoom;
     }
+
     /**
-     * Returns the housing address.
-     * @return The housing address
+     * Returns the address.
+     * @return The address
      */
     public String getAddress() {
         return this.address;
     }
+
     /**
-     * Change the housing address.
-     * @param address The new housing address as a String
+     * Change the address.
+     * @param address The address
      */
     public void setAddress(String address) {
         this.address = address;
     }
-    /**
-     * Returns a representation of this housing as a string.
-     * @return A representation of this housing as a string
-     */
+
+    @Override
     public String toString() {
         return "Pays: " + this.getCountry() + ". Surface: " + this.getSurface() + "m². Nombre de pièces: " + this.getNbRoom() + " pièces. addresse: " + this.getAddress();
     }

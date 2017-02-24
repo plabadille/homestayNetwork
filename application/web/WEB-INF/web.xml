@@ -5,9 +5,16 @@
   xmlns="http://java.sun.com/xml/ns/javaee"
   xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
   xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
-  http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" 
+  http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
   id="WebApp_ID"
   version="3.0">
+
+  <jsp-config>
+    <jsp-property-group>
+      <url-pattern>*.jsp</url-pattern>
+      <page-encoding>UTF-8</page-encoding>
+    </jsp-property-group>
+  </jsp-config>
 
   <!-- SERVLETS -->
   <servlet>
@@ -20,4 +27,4 @@
     <url-pattern>/</url-pattern>
   </servlet-mapping>
 
-</web-app> 
+</web-app>

@@ -233,7 +233,7 @@ public class HousingOfferDB {
         Session session=sessionFactory.openSession();
         try{
             Query query=session.createQuery("from HousingOffer where idHousing='"+housingId+"'");
-            offer = (HousingOffer)query.uniqueResult();
+            offer = (HousingOffer)query.setFirstResult(0).setMaxResults(1).uniqueResult();
         } catch (Exception e){
             throw e;
         } finally {

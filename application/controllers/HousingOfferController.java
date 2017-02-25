@@ -43,10 +43,6 @@ public class HousingOfferController {
         String startDate = requestParams.get("startDate");
         String endDate = requestParams.get("endDate");
 
-                System.out.println("TOOOOOOTOOOOOO:" + housingId);
-                System.out.println("deb: "+startDate+" fin: "+endDate);
-
-
         int offerNb = this.housingOfferDB.countHousingOfferById(housingId);
 
         System.out.println("nb:"+offerNb);
@@ -63,29 +59,34 @@ public class HousingOfferController {
                 throw e;
             }
 
-            if (offerNb == 1 && offer.isRegistred()) { //stage 1
-                offer.setBeginDate(startTimestamp);
-                offer.setEndDate(endTimestamp);
-                this.housingOfferDB.update(offer);
+            long diff = endTimestamp - startTimestamp;
+            if (diff >= 0) {
+                if (offerNb == 1 && offer.isRegistred()) { //stage 1
+                    offer.setBeginDate(startTimestamp);
+                    offer.setEndDate(endTimestamp);
+                    this.housingOfferDB.update(offer);
 
-                message="L'offre a bien été ajouté";
-            } else { //stage 2 or 3
-                // *************
-                //TO DO, check date conflict
-                // *************
-                HousingOffer newOffer = new HousingOffer(offer.getIdHousing(), offer.getIdOwner());
-                newOffer.setBeginDate(startTimestamp);
-                newOffer.setEndDate(endTimestamp);
-                this.housingOfferDB.create(newOffer);
+                    message="L'offre a bien été ajouté";
+                } else { //stage 2 or 3
+                    // *************
+                    //TO DO, check date conflict
+                    // *************
+                    HousingOffer newOffer = new HousingOffer(offer.getIdHousing(), offer.getIdOwner());
+                    newOffer.setBeginDate(startTimestamp);
+                    newOffer.setEndDate(endTimestamp);
+                    this.housingOfferDB.create(newOffer);
 
-                message="L'offre a bien été ajouté";
+                    message="L'offre a bien été ajouté";
+                }
+            } else {
+                message="La date de fin est antérieur à la date de début";
             }
         } else { //incorrect date format
             message="Le format de date n'est pas correct (JJ/MM/AAAA)";
         }
 
         redirectAttributes.addFlashAttribute("message",message);
-        return "redirect:/accountManagement/" + offer.getIdOwner();
+        return "redirect:/accountManagement/";
 
     }
 
@@ -105,7 +106,7 @@ public class HousingOfferController {
         String message="L'offre a bien été mise à jour";
 
         redirectAttributes.addFlashAttribute("message",message);
-        return "redirect:/accountManagement/" + offer.getIdOwner();
+        return "redirect:/accountManagement/";
 
     }
 
@@ -118,7 +119,7 @@ public class HousingOfferController {
         String message="L'offre a bien été supprimée";
         if (Utils.isConnected(session)) {
             redirectAttributes.addFlashAttribute("message",message);
-            return "redirect:/accountManagement/" + ownerId;
+            return "redirect:/accountManagement/";
         } else { //an admin moderate the offer
             return "redirect:/adminPanel";
         }
@@ -136,7 +137,7 @@ public class HousingOfferController {
         String message="L'offre a bien été supprimée";
         
         redirectAttributes.addFlashAttribute("message",message);
-        return "redirect:/accountManagement/" + activeUser;
+        return "redirect:/accountManagement/";
     }
     
     private long createTimestamp(String date) throws ParseException {

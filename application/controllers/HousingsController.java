@@ -51,13 +51,14 @@ public class HousingsController {
         this.housingOfferDB.initialize();
         this.housingOfferDB.create(new HousingOffer(housingId, userId));
 
-        return "redirect:/home";
+        return "redirect:/accountManagement";
     }
 
 
     @RequestMapping(value={"/editHousing/{id}"}, method=RequestMethod.POST)
     public String editHousing (@PathVariable("id") long id, @RequestParam Map<String,String> requestParams, HttpSession session, Model model) throws Exception {
         SQLHousingDB db = HousingsDBHandler.getDb();
+
         int surface = Integer.parseInt(requestParams.get("surface"));
         int nbRoom = Integer.parseInt(requestParams.get("nbRoom"));
         int gardenSurface = Integer.parseInt(requestParams.get("gardenSurface"));
@@ -65,13 +66,21 @@ public class HousingsController {
         String address = requestParams.get("address");
         String country = requestParams.get("country");
 
+        Housing housing = db.find(id);
+        housing.setCountry(country);
+        housing.setSurface(surface);
+        housing.setNbRoom(nbRoom);
+        housing.setAddress(address);
+
         if (isApartment == null) {
-            db.update(new Home(id, country, surface, nbRoom, address, gardenSurface));
+            Home home = (Home) housing;
+            home.setGardenSurface(gardenSurface);
+            db.update(home);
         } else {
-            db.update(new Apartment(id, country, surface, nbRoom, address));
+            db.update((Apartment) housing);
         }
 
-        return "redirect:/home";
+        return "redirect:/editHousing/" + id;
     }
 
     @RequestMapping(value={"/editHousing/{id}"})

@@ -18,13 +18,13 @@ import persons.PersonDB;
 
 @Controller
 public class PersonsController {
-    
+
     @Autowired
     private PersonDB personDB;
 
     @RequestMapping(value="/addUser", method=RequestMethod.POST)
     public String addUser(@RequestParam Map<String,String> requestParams, HttpSession session, RedirectAttributes redirectAttributes) {
-        
+
         String name = requestParams.get("name");
         String firstName = requestParams.get("firstName");
         String email = requestParams.get("email");
@@ -42,7 +42,7 @@ public class PersonsController {
                 this.personDB.create(person);
                 //we update the session storage
                 ((List<Person>)session.getAttribute("allPersons")).add(person);
-                
+
                 message="L'utilisateur " + firstName + " " + name + " a bien été ajouté.";
             } else {
                 message="Il y a des erreurs dans le formulaire.";
@@ -82,7 +82,7 @@ public class PersonsController {
 
     @RequestMapping(value="/accountManagement/editUser", method=RequestMethod.POST)
     public String editUser(@RequestParam Map<String,String> requestParams, HttpSession session, RedirectAttributes redirectAttributes) {
-        
+
         String name = requestParams.get("name");
         String firstName = requestParams.get("firstName");
         String email = requestParams.get("email");
@@ -109,18 +109,18 @@ public class PersonsController {
                 i++;
             }
             ((List<Person>)session.getAttribute("allPersons")).add(person);
-            
+
             message="L'utilisateur " + firstName + " " + name + " a bien été modifié.";
         } else {
             message="Il y a des erreurs dans le formulaire.";
         }
         redirectAttributes.addFlashAttribute("message",message);
-        return "redirect:/accountManagement/" + id;
+        return "redirect:/accountManagement";
     }
 
     @RequestMapping(value="/accountManagement/updatePassword", method=RequestMethod.POST)
     public String updatePassword(@RequestParam Map<String,String> requestParams, HttpSession session, RedirectAttributes redirectAttributes) {
-        
+
         String password = requestParams.get("password");
         String newPassword = requestParams.get("newPassword");
         String equalPassword = requestParams.get("equalPassword");
@@ -157,9 +157,9 @@ public class PersonsController {
                 message="Le nouveau mot de passe est le même que l'ancien";
             }
         }
-            
+
         redirectAttributes.addFlashAttribute("message",message);
-        return "redirect:/accountManagement/" + id;
+        return "redirect:/accountManagement";
     }
 
 }

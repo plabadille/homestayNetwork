@@ -3,7 +3,7 @@
   <ul>
     <li><a href="<c:url value='/home' />" title="">Accueil</a></li>
     <c:if test="${!empty activeUser}">
-      <li><a href="<c:url value="/accountManagement/${activeUser.id}" />" title="">Gestion du compte</a></li>
+      <li><a href="<c:url value="/accountManagement" />" title="">Gestion du compte</a></li>
       <li><a href="<c:url value='/searchProperty' />" title="">Rechercher une propriété</a></li>
     </c:if>
     <li><a href="<c:url value='/adminPanel' />" title="">Admin</a></li>

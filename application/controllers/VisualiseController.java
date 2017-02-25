@@ -34,7 +34,7 @@ public class VisualiseController {
     }
 
     @RequestMapping(value={"/home"})
-    public String visualiseAll (HttpSession session) {
+    public String visualiseAll(HttpSession session) {
         this.personDB.initialize();
         this.housingOfferDB.initialize();
         Utils.initializeSession(session,this.personDB);
@@ -42,7 +42,7 @@ public class VisualiseController {
     }
 
     @RequestMapping(value={"/adminPanel"})
-    public String adminPanel (HttpSession session) {
+    public String adminPanel(HttpSession session) {
         this.personDB.initialize();
         this.housingOfferDB.initialize();
         //TO DO: update model session storage (getAllOffers)
@@ -51,7 +51,7 @@ public class VisualiseController {
     }
 
     @RequestMapping(value={"/searchProperty"})
-    public String searchProperty (HttpSession session) {
+    public String searchProperty(HttpSession session) {
         this.personDB.initialize();
         this.housingOfferDB.initialize();
         //TO DO: update model session storage (getAllAvailableOffers)
@@ -59,14 +59,15 @@ public class VisualiseController {
         return "searchProperty";
     }
 
-    @RequestMapping(value="/accountManagement/{id}")
-    public String accountManagement (@PathVariable("id") long id, HttpSession session, Model model) throws Exception {
+    @RequestMapping(value="/accountManagement")
+    public String accountManagement(HttpSession session, Model model) throws Exception {
+        long userId = Utils.getConnectedUser(session).getId();
         this.housingOfferDB.initialize();
         //TO DO: update model session storage (getAllUserHousing, getAllUserReservation)
 
         SQLHousingDB db = HousingsDBHandler.getDb();
 
-        Collection<HousingOffer> housingOffers = this.housingOfferDB.getAllUserHousing(id);
+        Collection<HousingOffer> housingOffers = this.housingOfferDB.getAllUserHousing(userId);
         List<Housing> housings = new ArrayList<Housing>();
         for (HousingOffer housingOffer : housingOffers) {
             System.out.println("##" + housingOffer.getIdHousing());
@@ -75,7 +76,7 @@ public class VisualiseController {
         model.addAttribute("housings", housings);
 
         for (Person person: (List<Person>)session.getAttribute("allPersons")) {
-            if (person.getId().equals(id)) {
+            if (person.getId().equals(userId)) {
                 model.addAttribute("user",person);
                 break;
             }

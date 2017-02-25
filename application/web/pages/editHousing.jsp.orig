@@ -13,8 +13,12 @@
       <p>Vous ne pouvez pas visualiser une propriété qui ne vous appartient pas.</p>
     </c:when>
     <c:otherwise>
+<<<<<<< HEAD
       <h2>Editer la propriété</h2>
+      <form method="post" action="<c:url value='/addHousing' />">
+=======
       <form method="post" action="<c:url value='/editHousing/${housing.id}' />">
+>>>>>>> 14ab858e072f687d327c6886de0b1f4597079a45
         <p>
           <div>Surface: <input type="number" min="1" value="${housing.surface}" name="surface" required></div>
           <div>Nombre de pièces: <input type="number" min="1" value="${housing.nbRoom}" name="nbRoom" required></div>

@@ -157,6 +157,29 @@ public class HousingOfferDB {
     }
 
     /**
+    * Return evevery housing related to an housing.
+    * Used by the HousingController module
+    * @throw Exception
+    * @param <long> id (housing)
+    * @return Collection<HousingOffer>
+    */
+    public Collection<HousingOffer> getAllOfferByHousing(long id) {
+        Session session=sessionFactory.openSession();
+        List<HousingOffer> housing = null;
+
+        try{
+            Query query=session.createQuery("from HousingOffer where idHousing='"+id+"'");
+            housing = (List<HousingOffer>)query.list();
+        } catch (Exception e){
+            throw e;
+        } finally {
+            session.close();
+        }
+
+        return housing;
+    }
+
+    /**
     * Return evevery reservation made by a given user.
     * Used by the accountManagement module
     * @throw Exception
@@ -270,7 +293,6 @@ public class HousingOfferDB {
         try{
             Transaction tx = session.beginTransaction();
             count = ((Long)session.createQuery("select count(case idHousing when " + housingId + " then 1 else null end) from HousingOffer").uniqueResult()).intValue();
-            System.out.println("COUNT:"+count);
             tx.commit();
         } catch (Exception e){
             throw e;

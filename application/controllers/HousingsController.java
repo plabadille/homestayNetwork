@@ -93,6 +93,8 @@ public class HousingsController {
         Housing housing = db.find(id);
         model.addAttribute("isApartment", housing instanceof Apartment);
         model.addAttribute("housing", housing);
+        model.addAttribute("offers", this.housingOfferDB.getAllOfferByHousing(id));
         return "editHousing";
+
     }
 }

@@ -1,6 +1,9 @@
 package model;
 
 import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.text.DateFormat;
+
 
 /**
  * A class for representing housing offer with the housing and owner id. It has 3 different state
@@ -66,11 +69,18 @@ public class HousingOffer {
         this.beginDate = timestamp;
     }
     /**
-     * Return the timestamp of when the offer start
-     * @return <Date> Date
+     * Return the normalize date of when the offer start
+     * @return <String> Date
      */
-    public Date getBeginDateObject() {
-        return this.beginDate != -1 ? new Date(this.beginDate) : null;
+    public String getBeginDateObject() {
+        if (this.beginDate != -1) {
+            Date dateObject = new Date(this.beginDate);
+            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            String date = formatter.format(dateObject);
+
+            return date;
+        }
+        return null;
     }
     /**
      * Return the timestamp of when the offer end
@@ -87,11 +97,18 @@ public class HousingOffer {
         this.endDate = timestamp;
     }
     /**
-     * Return the date of when the offer finish
-     * @return <Date> Date
+     * Return the normalize date of when the offer finish
+     * @return <String> Date
      */
-    public Date getEndDateObject() {
-        return this.endDate != -1 ? new Date(this.endDate) : null;
+    public String getEndDateObject() {
+        if (this.endDate != -1) {
+            Date dateObject = new Date(this.endDate);
+            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            String date = formatter.format(dateObject);
+
+            return date;
+        }
+        return null;
     }
     /**
      * Return the date of when the offer finish

@@ -34,7 +34,17 @@
       </form>
 
       <h2>Gérer les offres</h2>
-      <p>W.I.P</p>
+      <c:if test="${empty offers}">
+        <p>Aucune offre.</p>
+      </c:if>
+      <c:if test="${!empty offers}">
+        <ul>
+          <c:forEach var="offer" items="${offers}">
+            <li>Du ${offer.beginDateObject} au ${offer.endDateObject}, statut: <c:out value="${offer.idGuest eq -1 ? 'libre': 'réservé'}"/> - <!-- <a href="<c:url value=" deleteUser?id=${person.id}" />">Détails</a> --></li>
+          </c:forEach>
+        </ul>
+      </c:if>
+
 
       <h2>Ajouter une offre</h2>
       <form method="post" action="<c:url value='/addOffer' />">

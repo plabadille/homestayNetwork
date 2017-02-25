@@ -51,6 +51,8 @@ public class HousingsController {
         this.housingOfferDB.initialize();
         this.housingOfferDB.create(new HousingOffer(housingId, userId));
 
+        redirectAttributes.addFlashAttribute("message", "Ajout effectuée !");
+
         return "redirect:/accountManagement";
     }
 

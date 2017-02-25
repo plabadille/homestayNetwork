@@ -63,15 +63,16 @@ public class VisualiseController {
     public String accountManagement(HttpSession session, Model model) throws Exception {
         long userId = Utils.getConnectedUser(session).getId();
         this.housingOfferDB.initialize();
-        //TO DO: update model session storage (getAllUserHousing, getAllUserReservation)
 
         SQLHousingDB db = HousingsDBHandler.getDb();
 
         Collection<HousingOffer> housingOffers = this.housingOfferDB.getAllUserHousing(userId);
         List<Housing> housings = new ArrayList<Housing>();
         for (HousingOffer housingOffer : housingOffers) {
-            System.out.println("##" + housingOffer.getIdHousing());
-            housings.add(db.find(housingOffer.getIdHousing()));
+            Housing housing = db.find(housingOffer.getIdHousing());
+            if (!housings.contains(housing)) {
+                housings.add(housing);
+            }
         }
         model.addAttribute("housings", housings);
 

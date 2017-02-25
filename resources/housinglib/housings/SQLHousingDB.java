@@ -26,7 +26,8 @@ public class SQLHousingDB implements IHousingDB {
     private PreparedStatement updateHousingStatement;
 
     /** A prepared statement for retrieval of one housing. */
-    private PreparedStatement retrieveAllHousingStatement;
+    private PreparedStatement retrieveAllHousingByAddressStatement;
+    private PreparedStatement retrieveAllHousingByIdStatement;
     private PreparedStatement deleteHousingStatement;
 
     /** A link to the database. */
@@ -53,8 +54,12 @@ public class SQLHousingDB implements IHousingDB {
             + "gardenSurface=?, isApartment=?, address=? WHERE id=?"
         );
 
-        this.retrieveAllHousingStatement = this.link.prepareStatement(
+        this.retrieveAllHousingByAddressStatement = this.link.prepareStatement(
             "SELECT * FROM " + this.table + " WHERE address=?"
+        );
+
+        this.retrieveAllHousingByIdStatement = this.link.prepareStatement(
+            "SELECT * FROM " + this.table + " WHERE id=?"
         );
 
         this.deleteHousingStatement = this.link.prepareStatement(
@@ -177,8 +182,36 @@ public class SQLHousingDB implements IHousingDB {
 
     @Override
     public Housing find(String address) throws SQLException {
-        this.retrieveAllHousingStatement.setString(1, address);
-        ResultSet rs = this.retrieveAllHousingStatement.executeQuery();
+        this.retrieveAllHousingByAddressStatement.setString(1, address);
+        ResultSet rs = this.retrieveAllHousingByAddressStatement.executeQuery();
+
+        if (!rs.next()) {
+            return null;
+        }
+        if (!rs.getBoolean("isApartment")) {
+            return new Home(
+                rs.getLong("id"),
+                rs.getString("country"),
+                rs.getInt("surface"),
+                rs.getInt("nbRoom"),
+                rs.getString("address"),
+                rs.getInt("gardenSurface")
+            );
+        } else {
+            return new Apartment(
+                rs.getLong("id"),
+                rs.getString("country"),
+                rs.getInt("surface"),
+                rs.getInt("nbRoom"),
+                rs.getString("address")
+            );
+        }
+    }
+
+    @Override
+    public Housing find(long id) throws SQLException {
+        this.retrieveAllHousingByIdStatement.setLong(1, id);
+        ResultSet rs = this.retrieveAllHousingByIdStatement.executeQuery();
 
         if (!rs.next()) {
             return null;

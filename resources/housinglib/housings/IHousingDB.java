@@ -63,6 +63,13 @@ public interface IHousingDB {
      * @throws SQLException
      */
     public Housing find(String address) throws SQLException;
+    /**
+     * Return a housing if it exist in the database
+     * @param id housing The housing id to search
+     * @return The housing if it exists or null
+     * @throws SQLException
+     */
+    public Housing find(long id) throws SQLException;
 
     /**
      * Delete an housing

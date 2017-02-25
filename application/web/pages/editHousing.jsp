@@ -5,6 +5,9 @@
 
 <main>
   <h1>Modifier une propriété</h1>
+  <c:if test="${!empty message}">
+    <p style="color:green;">${message}</p>
+  </c:if>
   <c:choose>
     <c:when test="${empty activeUser}">
       <p>Vous devez être connecté pour accéder à cette page</p>

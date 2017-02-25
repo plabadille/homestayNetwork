@@ -84,7 +84,7 @@ public class HousingOffer {
      * @param <long> timestamp
      */
     public void setEndDate(long timestamp) {
-        this.beginDate = timestamp;
+        this.endDate = timestamp;
     }
     /**
      * Return the date of when the offer finish

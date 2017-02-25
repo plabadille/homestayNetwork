@@ -14,6 +14,10 @@ import org.springframework.ui.Model;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.text.ParseException; 
 
 import housings.Home;
 import housings.Apartment;
@@ -32,31 +36,52 @@ public class HousingOfferController {
 
     //addOffer
     @RequestMapping(value="/addOffer", method=RequestMethod.POST)
-    public String addOffer(@RequestParam Map<String,String> requestParams, HttpSession session, RedirectAttributes redirectAttributes) {
+    public String addOffer(@RequestParam Map<String,String> requestParams, HttpSession session, RedirectAttributes redirectAttributes) throws ParseException {
 
-        long idOffer = Long.parseLong(requestParams.get("idOffer"));
-        long startTimestamp = Long.parseLong(requestParams.get("startDate"));
-        long endTimestamp = Long.parseLong(requestParams.get("stopDate"));
 
-        HousingOffer offer = this.housingOfferDB.find(idOffer);
+        long housingId = Long.parseLong(requestParams.get("housingId"));
+        String startDate = requestParams.get("startDate");
+        String endDate = requestParams.get("endDate");
+
+                System.out.println("TOOOOOOTOOOOOO:" + housingId);
+                System.out.println("deb: "+startDate+" fin: "+endDate);
+
+
+        int offerNb = this.housingOfferDB.countHousingOfferById(housingId);
+
+        System.out.println("nb:"+offerNb);
+        HousingOffer offer = this.housingOfferDB.findByHousingId(housingId);
         String message = null;
+        long startTimestamp;
+        long endTimestamp;
 
-        if (offer.isRegistred()) { //stage 1
-            offer.setBeginDate(startTimestamp);
-            offer.setEndDate(endTimestamp);
-            this.housingOfferDB.update(offer);
+        if (this.dateFormatIsCorrect(startDate) && this.dateFormatIsCorrect(endDate)) {
+            try {
+                startTimestamp = this.createTimestamp(startDate);
+                endTimestamp = this.createTimestamp(endDate);
+            } catch (Throwable e) {
+                throw e;
+            }
 
-            message="L'offre a bien été ajouté";
-        } else { //stage 2 or 3
-            // *************
-            //TO DO, check date conflict
-            // *************
-            HousingOffer newOffer = new HousingOffer(offer.getIdHousing(), offer.getIdOwner());
-            newOffer.setBeginDate(startTimestamp);
-            newOffer.setEndDate(endTimestamp);
-            this.housingOfferDB.create(newOffer);
+            if (offerNb == 1 && offer.isRegistred()) { //stage 1
+                offer.setBeginDate(startTimestamp);
+                offer.setEndDate(endTimestamp);
+                this.housingOfferDB.update(offer);
 
-            message="L'offre a bien été ajouté";
+                message="L'offre a bien été ajouté";
+            } else { //stage 2 or 3
+                // *************
+                //TO DO, check date conflict
+                // *************
+                HousingOffer newOffer = new HousingOffer(offer.getIdHousing(), offer.getIdOwner());
+                newOffer.setBeginDate(startTimestamp);
+                newOffer.setEndDate(endTimestamp);
+                this.housingOfferDB.create(newOffer);
+
+                message="L'offre a bien été ajouté";
+            }
+        } else { //incorrect date format
+            message="Le format de date n'est pas correct (JJ/MM/AAAA)";
         }
 
         redirectAttributes.addFlashAttribute("message",message);
@@ -114,5 +139,34 @@ public class HousingOfferController {
         return "redirect:/accountManagement/" + activeUser;
     }
     
+    private long createTimestamp(String date) throws ParseException {
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+        try {
+            Date timestamp = dateFormat.parse(date);
+            return timestamp.getTime();
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    private boolean dateFormatIsCorrect(String date) {
+        String[] parts = date.split("/");
+
+        if (parts.length != 3) {
+            return false;
+        }
+        if (parts[0].length() != 2) {
+            return false;
+        }
+        if (parts[1].length() != 2) {
+            return false;
+        }
+        if (parts[2].length() != 4) {
+            return false;
+        }
+
+        return true;
+    }
 
 }

@@ -189,7 +189,27 @@ public class HousingOfferDB {
         HousingOffer offer = null;
         Session session=sessionFactory.openSession();
         try{
-            Query query=session.createQuery("from offer where id='"+offerId+"'");
+            Query query=session.createQuery("from HousingOffer where id='"+offerId+"'");
+            offer = (HousingOffer)query.uniqueResult();
+        } catch (Exception e){
+            throw e;
+        } finally {
+            session.close();
+        }
+        return offer;
+    }
+
+    /**
+    * Return the first instance of one existing offer from housingId
+    * @throw Exception
+    * @param <long> housingId
+    * @return <HousingOffer>
+    */
+    public HousingOffer findByHousingId (long housingId) {
+        HousingOffer offer = null;
+        Session session=sessionFactory.openSession();
+        try{
+            Query query=session.createQuery("from HousingOffer where idHousing='"+housingId+"'");
             offer = (HousingOffer)query.uniqueResult();
         } catch (Exception e){
             throw e;
@@ -235,6 +255,30 @@ public class HousingOfferDB {
         } finally {
             session.close();
         }
+    }
+
+    /**
+    * Count the number of offer existing for one housing
+    * @throw IndexOutOfBoundsException
+    * @param <HousingOffer>
+    */
+    public int countHousingOfferById(long housingId) throws HibernateException {
+
+        Session session=sessionFactory.openSession();
+        int count = 0;
+
+        try{
+            Transaction tx = session.beginTransaction();
+            count = ((Long)session.createQuery("select count(case idHousing when " + housingId + " then 1 else null end) from HousingOffer").uniqueResult()).intValue();
+            System.out.println("COUNT:"+count);
+            tx.commit();
+        } catch (Exception e){
+            throw e;
+        } finally {
+            session.close();
+        }
+
+        return count;
     }
 
 }

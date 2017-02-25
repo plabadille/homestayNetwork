@@ -32,6 +32,11 @@
           <input type="submit" value="Envoyer">
         </p>
       </form>
+      <form method="post" action="<c:url value='/editHousing/${housing.id}/delete' />">
+        <p>
+          <input type="submit" value="Supprimer">
+        </p>
+      </form>
 
       <h2>Gérer les offres</h2>
       <c:if test="${empty offers}">

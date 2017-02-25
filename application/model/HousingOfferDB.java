@@ -243,6 +243,26 @@ public class HousingOfferDB {
     }
 
     /**
+    * Return all instance of offer from housingId
+    * @throw Exception
+    * @param <long> housingId
+    * @return <HousingOffer>
+    */
+    public List<HousingOffer> findAllByHousingId (long housingId) {
+        List<HousingOffer> offer = null;
+        Session session=sessionFactory.openSession();
+        try{
+            Query query=session.createQuery("from HousingOffer where idHousing='"+housingId+"'");
+            offer = (List<HousingOffer>)query.list();
+        } catch (Exception e){
+            throw e;
+        } finally {
+            session.close();
+        }
+        return offer;
+    }
+
+    /**
     * Update an existing HousingOffer in db
     * @throw HibernateException
     * @param <long> id (person)

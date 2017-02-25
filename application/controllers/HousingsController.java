@@ -56,7 +56,6 @@ public class HousingsController {
         return "redirect:/accountManagement";
     }
 
-
     @RequestMapping(value={"/editHousing/{id}"}, method=RequestMethod.POST)
     public String editHousing (@PathVariable("id") long id, @RequestParam Map<String,String> requestParams, HttpSession session, RedirectAttributes redirectAttributes, Model model) throws Exception {
         SQLHousingDB db = HousingsDBHandler.getDb();
@@ -87,6 +86,23 @@ public class HousingsController {
         return "redirect:/editHousing/" + id;
     }
 
+    @RequestMapping(value={"/editHousing/{id}/delete"}, method=RequestMethod.POST)
+    public String deleteHousing(@PathVariable("id") long id, @RequestParam Map<String,String> requestParams, HttpSession session, RedirectAttributes redirectAttributes, Model model) throws Exception {
+        long userId = Utils.getConnectedUser(session).getId();
+        SQLHousingDB db = HousingsDBHandler.getDb();
+        db.delete(db.find(id));
+
+        this.housingOfferDB.initialize();
+        List<HousingOffer> offers = this.housingOfferDB.findAllByHousingId(id);
+        for (HousingOffer offer : offers) {
+            this.housingOfferDB.delete(offer);
+        }
+
+        redirectAttributes.addFlashAttribute("message", "Suppression effectuée !");
+
+        return "redirect:/accountManagement";
+    }
+
     @RequestMapping(value={"/editHousing/{id}"})
     public String editHousing (@PathVariable("id") long id, HttpSession session, Model model) throws Exception {
         SQLHousingDB db = HousingsDBHandler.getDb();
@@ -95,6 +111,5 @@ public class HousingsController {
         model.addAttribute("housing", housing);
         model.addAttribute("offers", this.housingOfferDB.getAllOfferByHousing(id));
         return "editHousing";
-
     }
 }

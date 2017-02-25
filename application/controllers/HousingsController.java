@@ -57,8 +57,6 @@ public class HousingsController {
 
     @RequestMapping(value={"/editHousing/{id}"}, method=RequestMethod.POST)
     public String editHousing (@PathVariable("id") long id, @RequestParam Map<String,String> requestParams, HttpSession session, Model model) throws Exception {
-
-        // TODO: Check if the current user owns the housing
         SQLHousingDB db = HousingsDBHandler.getDb();
         int surface = Integer.parseInt(requestParams.get("surface"));
         int nbRoom = Integer.parseInt(requestParams.get("nbRoom"));
@@ -77,9 +75,9 @@ public class HousingsController {
     }
 
     @RequestMapping(value={"/editHousing/{id}"})
-    public String editHousing (@PathVariable("id") long id, HttpSession session, Model model) {
-        // TODO: Retrieve the housing from the offer table
-        Housing housing = new Home("France", 80, 4, "6 rue de la patinoire", 120);
+    public String editHousing (@PathVariable("id") long id, HttpSession session, Model model) throws Exception {
+        SQLHousingDB db = HousingsDBHandler.getDb();
+        Housing housing = db.find(id);
         model.addAttribute("isApartment", housing instanceof Apartment);
         model.addAttribute("housing", housing);
         return "editHousing";

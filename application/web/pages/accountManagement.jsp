@@ -29,7 +29,7 @@
         <c:otherwise>
           <ul>
             <c:forEach var="housing" items="${housings}">
-              <li>${housing.address} - <a href="<c:url value="/editHousing/${person.id}" />">Modifier</a></li>
+              <li>${housing.address} - <a href="<c:url value="/editHousing/${housing.id}" />">Modifier</a></li>
             </c:forEach>
           </ul>
         </c:otherwise>

@@ -27,14 +27,14 @@ public interface IHousingDB {
      * @param home The home to add
      * @throws SQLException if the argument is not an object from Housing
      */
-    public boolean add(Home home) throws SQLException;
+    public long add(Home home) throws SQLException;
     /**
      * Add an apartment
      * @param Apartment apartment The apartment
      * @return True if the apartment is insered
      * @throws SQLException
      */
-    public boolean add(Apartment apartment) throws SQLException;
+    public long add(Apartment apartment) throws SQLException;
 
     /**
      * Update the home
@@ -63,6 +63,13 @@ public interface IHousingDB {
      * @throws SQLException
      */
     public Housing find(String address) throws SQLException;
+    /**
+     * Return a housing if it exist in the database
+     * @param id housing The housing id to search
+     * @return The housing if it exists or null
+     * @throws SQLException
+     */
+    public Housing find(long id) throws SQLException;
 
     /**
      * Delete an housing

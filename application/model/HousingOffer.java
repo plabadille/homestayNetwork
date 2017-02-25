@@ -90,8 +90,15 @@ public class HousingOffer {
      * Return the date of when the offer finish
      * @return <Date> Date
      */
-    public Date getEndDate() {
+    public Date getEndDateObject() {
         return this.endDate != -1 ? new Date(this.endDate) : null;
+    }
+    /**
+     * Return the date of when the offer finish
+     * @return <Date> Date
+     */
+    public long getEndDate() {
+        return this.endDate;
     }
     /**
      * Return id of the house in db

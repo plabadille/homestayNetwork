@@ -26,7 +26,8 @@ public class SQLHousingDB implements IHousingDB {
     private PreparedStatement updateHousingStatement;
 
     /** A prepared statement for retrieval of one housing. */
-    private PreparedStatement retrieveAllHousingStatement;
+    private PreparedStatement retrieveAllHousingByAddressStatement;
+    private PreparedStatement retrieveAllHousingByIdStatement;
     private PreparedStatement deleteHousingStatement;
 
     /** A link to the database. */
@@ -44,7 +45,8 @@ public class SQLHousingDB implements IHousingDB {
 
         this.createHousingStatement = this.link.prepareStatement(
             "INSERT INTO " + this.table + " (country, surface, nbRoom, address,"
-            + " gardenSurface, isApartment) VALUES(?,?,?,?,?,?)"
+            + " gardenSurface, isApartment) VALUES(?,?,?,?,?,?)",
+            Statement.RETURN_GENERATED_KEYS
         );
 
         this.updateHousingStatement = this.link.prepareStatement(
@@ -52,8 +54,12 @@ public class SQLHousingDB implements IHousingDB {
             + "gardenSurface=?, isApartment=?, address=? WHERE id=?"
         );
 
-        this.retrieveAllHousingStatement = this.link.prepareStatement(
+        this.retrieveAllHousingByAddressStatement = this.link.prepareStatement(
             "SELECT * FROM " + this.table + " WHERE address=?"
+        );
+
+        this.retrieveAllHousingByIdStatement = this.link.prepareStatement(
+            "SELECT * FROM " + this.table + " WHERE id=?"
         );
 
         this.deleteHousingStatement = this.link.prepareStatement(
@@ -64,7 +70,7 @@ public class SQLHousingDB implements IHousingDB {
     }
 
     @Override
-    public boolean add(Home home) throws SQLException {
+    public long add(Home home) throws SQLException {
         if (find(home.getAddress()) == null) {
             this.createHousingStatement.setString(1, home.getCountry());
             this.createHousingStatement.setInt(2, home.getSurface());
@@ -73,13 +79,17 @@ public class SQLHousingDB implements IHousingDB {
             this.createHousingStatement.setInt(5, home.getGardenSurface());
             this.createHousingStatement.setBoolean(6, false);
             this.createHousingStatement.execute();
-            return true;
+
+            ResultSet rs = this.createHousingStatement.getGeneratedKeys();
+            if(rs.next()) {
+                return rs.getInt(1);
+            }
         }
-        return false;
+        return -1;
     }
 
     @Override
-    public boolean add(Apartment apartment) throws SQLException {
+    public long add(Apartment apartment) throws SQLException {
         if (find(apartment.getAddress()) == null) {
             this.createHousingStatement.setString(1, apartment.getCountry());
             this.createHousingStatement.setInt(2, apartment.getSurface());
@@ -88,9 +98,13 @@ public class SQLHousingDB implements IHousingDB {
             this.createHousingStatement.setInt(5, 0);
             this.createHousingStatement.setBoolean(6, true);
             this.createHousingStatement.execute();
-            return true;
+
+            ResultSet rs = this.createHousingStatement.getGeneratedKeys();
+            if(rs.next()) {
+                return rs.getInt(1);
+            }
         }
-        return false;
+        return -1;
     }
 
     @Override
@@ -168,8 +182,36 @@ public class SQLHousingDB implements IHousingDB {
 
     @Override
     public Housing find(String address) throws SQLException {
-        this.retrieveAllHousingStatement.setString(1, address);
-        ResultSet rs = this.retrieveAllHousingStatement.executeQuery();
+        this.retrieveAllHousingByAddressStatement.setString(1, address);
+        ResultSet rs = this.retrieveAllHousingByAddressStatement.executeQuery();
+
+        if (!rs.next()) {
+            return null;
+        }
+        if (!rs.getBoolean("isApartment")) {
+            return new Home(
+                rs.getLong("id"),
+                rs.getString("country"),
+                rs.getInt("surface"),
+                rs.getInt("nbRoom"),
+                rs.getString("address"),
+                rs.getInt("gardenSurface")
+            );
+        } else {
+            return new Apartment(
+                rs.getLong("id"),
+                rs.getString("country"),
+                rs.getInt("surface"),
+                rs.getInt("nbRoom"),
+                rs.getString("address")
+            );
+        }
+    }
+
+    @Override
+    public Housing find(long id) throws SQLException {
+        this.retrieveAllHousingByIdStatement.setLong(1, id);
+        ResultSet rs = this.retrieveAllHousingByIdStatement.executeQuery();
 
         if (!rs.next()) {
             return null;
@@ -203,7 +245,9 @@ public class SQLHousingDB implements IHousingDB {
 
     @Override
     public void delete(Housing housing) throws SQLException {
-        this.deleteHousingStatement.setLong(1, housing.getId());
-        this.deleteHousingStatement.execute();
+        if (housing != null) {
+            this.deleteHousingStatement.setLong(1, housing.getId());
+            this.deleteHousingStatement.execute();
+        }
     }
 }

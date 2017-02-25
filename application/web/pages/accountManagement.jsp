@@ -29,7 +29,7 @@
         <c:otherwise>
           <ul>
             <c:forEach var="housing" items="${housings}">
-              <li>${housing.address} - <a href="<c:url value="/editHousing/${person.id}" />">Modifier</a></li>
+              <li>${housing.address} - <a href="<c:url value="/editHousing/${housing.id}" />">Modifier</a></li>
             </c:forEach>
           </ul>
         </c:otherwise>
@@ -39,8 +39,8 @@
       <h2>Ajouter une propriété:</h2>
       <form method="post" action="<c:url value='/addHousing' />">
         <p>
-          <div>Surface: <input type="number" value="0" min="0" name="surface" required></div>
-          <div>Nombre de pièces: <input type="number" value="0" min="0" name="nbRoom" required></div>
+          <div>Surface: <input type="number" value="0" min="1" name="surface" required></div>
+          <div>Nombre de pièces: <input type="number" value="0" min="1" name="nbRoom" required></div>
           <div>Surface du jardin: <input type="number" value="0" min="0" name="gardenSurface" required></div>
           <div>Appartement ? <input type="checkbox" name="isApartment"></div>
           <div>Adresse: <input type="text" name="address" required></div>

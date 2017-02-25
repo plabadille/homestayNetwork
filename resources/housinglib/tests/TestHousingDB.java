@@ -85,7 +85,7 @@ public class TestHousingDB {
 	@Test
 	public void testIllegalArgumentExceptionDoublon() throws SQLException {
 		l.add(new Home("France", 70, 4, "truc sur Megergr", 500));
-		assertFalse(l.add(new Home("France", 70, 4, "truc sur Megergr", 500)));
+		assertEquals(-1, l.add(new Home("France", 70, 4, "truc sur Megergr", 500)));
 	}
 
 	//Tests getAll:

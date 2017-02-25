@@ -103,7 +103,7 @@ public class SQLHousingDB implements IHousingDB {
         this.updateHousingStatement.setInt(4, home.getGardenSurface());
         this.updateHousingStatement.setBoolean(5, false);
         this.updateHousingStatement.setString(6, home.getCountry());
-        this.updateHousingStatement.setInt(7, home.getId());
+        this.updateHousingStatement.setLong(7, home.getId());
         this.createHousingStatement.execute();
     }
 
@@ -115,7 +115,7 @@ public class SQLHousingDB implements IHousingDB {
         this.updateHousingStatement.setString(4, apartment.getAddress());
         this.updateHousingStatement.setInt(5, 0);
         this.updateHousingStatement.setBoolean(6, true);
-        this.updateHousingStatement.setInt(7, apartment.getId());
+        this.updateHousingStatement.setLong(7, apartment.getId());
         this.createHousingStatement.execute();
     }
 
@@ -146,7 +146,7 @@ public class SQLHousingDB implements IHousingDB {
         while (rs.next()) {
             if (!rs.getBoolean("isApartment")) {
                 res.add(new Home(
-                    rs.getInt("id"),
+                    rs.getLong("id"),
                     rs.getString("country"),
                     rs.getInt("surface"),
                     rs.getInt("nbRoom"),
@@ -155,7 +155,7 @@ public class SQLHousingDB implements IHousingDB {
                 ));
             } else {
                 res.add(new Apartment(
-                    rs.getInt("id"),
+                    rs.getLong("id"),
                     rs.getString("country"),
                     rs.getInt("surface"),
                     rs.getInt("nbRoom"),
@@ -178,7 +178,7 @@ public class SQLHousingDB implements IHousingDB {
         }
         if (!rs.getBoolean("isApartment")) {
             return new Home(
-                rs.getInt("id"),
+                rs.getLong("id"),
                 rs.getString("country"),
                 rs.getInt("surface"),
                 rs.getInt("nbRoom"),
@@ -187,7 +187,7 @@ public class SQLHousingDB implements IHousingDB {
             );
         } else {
             return new Apartment(
-                rs.getInt("id"),
+                rs.getLong("id"),
                 rs.getString("country"),
                 rs.getInt("surface"),
                 rs.getInt("nbRoom"),
@@ -205,7 +205,7 @@ public class SQLHousingDB implements IHousingDB {
 
     @Override
     public void delete(Housing housing) throws SQLException {
-        this.deleteHousingStatement.setInt(1, housing.getId());
+        this.deleteHousingStatement.setLong(1, housing.getId());
         this.deleteHousingStatement.execute();
     }
 }

@@ -26,7 +26,7 @@ public class Apartment extends Housing {
      * @param nbRoom The nb of rooms
      * @param address The address
      */
-    public Apartment(int id, String country, int surface, int nbRoom, String address) {
+    public Apartment(long id, String country, int surface, int nbRoom, String address) {
         super(id, country, surface, nbRoom, address);
     }
 

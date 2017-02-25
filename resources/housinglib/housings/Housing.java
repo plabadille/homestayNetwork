@@ -7,7 +7,7 @@
 package housings;
 
 public abstract class Housing {
-    protected int id;
+    protected long id;
     /** The housing country */
     protected String country;
     /** The housing surface */
@@ -25,7 +25,7 @@ public abstract class Housing {
      * @param nbRoom The nb of rooms
      * @param address The address
      */
-    public Housing(int id, String country, int surface, int nbRoom, String address) {
+    public Housing(long id, String country, int surface, int nbRoom, String address) {
         this.id = id;
         this.country = country;
         if (surface > 0) {
@@ -49,7 +49,7 @@ public abstract class Housing {
      * Get the id
      * @return The id
      */
-    public int getId() {
+    public long getId() {
         return this.id;
     }
 

@@ -19,7 +19,7 @@ public class Home extends Housing {
      * @param address The house address
      * @param gardenSurface The house garden surface
      */
-    public Home(int id, String country, int surface, int nbRoom, String address, int gardenSurface) {
+    public Home(long id, String country, int surface, int nbRoom, String address, int gardenSurface) {
         super(id, country, surface, nbRoom, address);
         if (gardenSurface >= 0){
             this.gardenSurface = gardenSurface;

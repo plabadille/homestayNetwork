@@ -56,7 +56,7 @@ public class HousingsController {
 
 
     @RequestMapping(value={"/editHousing/{id}"}, method=RequestMethod.POST)
-    public String editHousing (@PathVariable("id") long id, @RequestParam Map<String,String> requestParams, HttpSession session, Model model) throws Exception {
+    public String editHousing (@PathVariable("id") long id, @RequestParam Map<String,String> requestParams, HttpSession session, RedirectAttributes redirectAttributes, Model model) throws Exception {
         SQLHousingDB db = HousingsDBHandler.getDb();
 
         int surface = Integer.parseInt(requestParams.get("surface"));
@@ -79,6 +79,8 @@ public class HousingsController {
         } else {
             db.update((Apartment) housing);
         }
+
+        redirectAttributes.addFlashAttribute("message", "Modifications effectuée !");
 
         return "redirect:/editHousing/" + id;
     }

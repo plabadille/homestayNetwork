@@ -44,7 +44,8 @@ public class SQLHousingDB implements IHousingDB {
 
         this.createHousingStatement = this.link.prepareStatement(
             "INSERT INTO " + this.table + " (country, surface, nbRoom, address,"
-            + " gardenSurface, isApartment) VALUES(?,?,?,?,?,?)"
+            + " gardenSurface, isApartment) VALUES(?,?,?,?,?,?)",
+            Statement.RETURN_GENERATED_KEYS
         );
 
         this.updateHousingStatement = this.link.prepareStatement(
@@ -64,7 +65,7 @@ public class SQLHousingDB implements IHousingDB {
     }
 
     @Override
-    public boolean add(Home home) throws SQLException {
+    public long add(Home home) throws SQLException {
         if (find(home.getAddress()) == null) {
             this.createHousingStatement.setString(1, home.getCountry());
             this.createHousingStatement.setInt(2, home.getSurface());
@@ -73,13 +74,17 @@ public class SQLHousingDB implements IHousingDB {
             this.createHousingStatement.setInt(5, home.getGardenSurface());
             this.createHousingStatement.setBoolean(6, false);
             this.createHousingStatement.execute();
-            return true;
+
+            ResultSet rs = this.createHousingStatement.getGeneratedKeys();
+            if(rs.next()) {
+                return rs.getInt(1);
+            }
         }
-        return false;
+        return -1;
     }
 
     @Override
-    public boolean add(Apartment apartment) throws SQLException {
+    public long add(Apartment apartment) throws SQLException {
         if (find(apartment.getAddress()) == null) {
             this.createHousingStatement.setString(1, apartment.getCountry());
             this.createHousingStatement.setInt(2, apartment.getSurface());
@@ -88,9 +93,13 @@ public class SQLHousingDB implements IHousingDB {
             this.createHousingStatement.setInt(5, 0);
             this.createHousingStatement.setBoolean(6, true);
             this.createHousingStatement.execute();
-            return true;
+
+            ResultSet rs = this.createHousingStatement.getGeneratedKeys();
+            if(rs.next()) {
+                return rs.getInt(1);
+            }
         }
-        return false;
+        return -1;
     }
 
     @Override
@@ -203,7 +212,9 @@ public class SQLHousingDB implements IHousingDB {
 
     @Override
     public void delete(Housing housing) throws SQLException {
-        this.deleteHousingStatement.setLong(1, housing.getId());
-        this.deleteHousingStatement.execute();
+        if (housing != null) {
+            this.deleteHousingStatement.setLong(1, housing.getId());
+            this.deleteHousingStatement.execute();
+        }
     }
 }

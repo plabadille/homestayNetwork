@@ -109,14 +109,14 @@ public class SQLHousingDB implements IHousingDB {
 
     @Override
     public void update(Home home) throws SQLException {
-        this.updateHousingStatement.setInt(1, home.getSurface());
-        this.updateHousingStatement.setInt(2, home.getNbRoom());
-        this.updateHousingStatement.setString(3, home.getAddress());
+        this.updateHousingStatement.setString(1, home.getCountry());
+        this.updateHousingStatement.setInt(2, home.getSurface());
+        this.updateHousingStatement.setInt(3, home.getNbRoom());
         this.updateHousingStatement.setInt(4, home.getGardenSurface());
         this.updateHousingStatement.setBoolean(5, false);
-        this.updateHousingStatement.setString(6, home.getCountry());
+        this.updateHousingStatement.setString(6, home.getAddress());
         this.updateHousingStatement.setLong(7, home.getId());
-        this.createHousingStatement.execute();
+        this.updateHousingStatement.execute();
     }
 
     @Override
@@ -124,11 +124,11 @@ public class SQLHousingDB implements IHousingDB {
         this.updateHousingStatement.setString(1, apartment.getCountry());
         this.updateHousingStatement.setInt(2, apartment.getSurface());
         this.updateHousingStatement.setInt(3, apartment.getNbRoom());
-        this.updateHousingStatement.setString(4, apartment.getAddress());
-        this.updateHousingStatement.setInt(5, 0);
-        this.updateHousingStatement.setBoolean(6, true);
+        this.updateHousingStatement.setInt(4, 0);
+        this.updateHousingStatement.setBoolean(5, true);
+        this.updateHousingStatement.setString(6, apartment.getAddress());
         this.updateHousingStatement.setLong(7, apartment.getId());
-        this.createHousingStatement.execute();
+        this.updateHousingStatement.execute();
     }
 
     @Override

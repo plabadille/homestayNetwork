@@ -102,7 +102,7 @@ public class HousingOfferController {
 
     @RequestMapping(value="bookOffer", method=RequestMethod.GET)
     public String bookOffer(@RequestParam("idOffer") long idOffer, HttpSession session, RedirectAttributes redirectAttributes) {
-        long activeUser = Utils.getConnectedUser().getId();
+        long activeUser = (long) Utils.getConnectedUser(session).getId();
 
         HousingOffer offer = this.housingOfferDB.find(idOffer);
         

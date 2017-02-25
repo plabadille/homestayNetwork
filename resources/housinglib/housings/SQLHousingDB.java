@@ -131,7 +131,7 @@ public class SQLHousingDB implements IHousingDB {
         query += " gardenSurface INT NOT NULL,";
         query += " address VARCHAR(255) NOT NULL,";
         query += " isApartment boolean NOT NULL,";
-        query += " PRIMARY KEY (address)";
+        query += " PRIMARY KEY (id)";
         query += ")";
 
         statement.execute(query);

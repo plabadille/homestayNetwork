@@ -180,6 +180,26 @@ public class HousingOfferDB {
     }
 
     /**
+    * Return the instance of one existing offer
+    * @throw Exception
+    * @param <long> offerId
+    * @return <HousingOffer>
+    */
+    public HousingOffer find (long offerId) {
+        HousingOffer offer = null;
+        Session session=sessionFactory.openSession();
+        try{
+            Query query=session.createQuery("from offer where id='"+offerId+"'");
+            offer = (HousingOffer)query.uniqueResult();
+        } catch (Exception e){
+            throw e;
+        } finally {
+            session.close();
+        }
+        return offer;
+    }
+
+    /**
     * Update an existing HousingOffer in db
     * @throw HibernateException
     * @param <long> id (person)

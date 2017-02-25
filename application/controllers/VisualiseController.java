@@ -38,6 +38,8 @@ public class VisualiseController {
     @RequestMapping(value={"/adminPanel"})
     public String adminPanel (HttpSession session) {
         this.personDB.initialize();
+        this.housingOfferDB.initialize();
+        //TO DO: update model session storage (getAllOffers)
         Utils.initializeSession(session,this.personDB);
         return "adminPanel";
     }
@@ -45,6 +47,8 @@ public class VisualiseController {
     @RequestMapping(value={"/searchProperty"})
     public String searchProperty (HttpSession session) {
         this.personDB.initialize();
+        this.housingOfferDB.initialize();
+        //TO DO: update model session storage (getAllAvailableOffers)
         Utils.initializeSession(session,this.personDB);
         return "searchProperty";
     }
@@ -52,6 +56,7 @@ public class VisualiseController {
     @RequestMapping(value="/accountManagement/{id}")
     public String accountManagement (@PathVariable("id") long id, HttpSession session, Model model) {
         this.housingOfferDB.initialize();
+        //TO DO: update model session storage (getAllUserHousing, getAllUserReservation)
 
         model.addAttribute("housings", this.housingOfferDB.getAllUserHousing(id));
 

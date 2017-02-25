@@ -55,7 +55,7 @@ public class PersonsController {
     }
 
     @RequestMapping(value="deleteUser", method=RequestMethod.GET)
-    public String addUser(@RequestParam("id") long id, HttpSession session, RedirectAttributes redirectAttributes) {
+    public String deleteUser(@RequestParam("id") long id, HttpSession session, RedirectAttributes redirectAttributes) {
 
         Utils.initializeSession(session,this.personDB);
         String message = null;

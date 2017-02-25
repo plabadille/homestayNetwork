@@ -56,9 +56,9 @@ public class HousingsDBHandler {
     private static void initialize () throws NamingException, SQLException {
         // InitialContext initialContext = new InitialContext();
         String host="localhost";
-        String database="housings";
-        String username="root";
-        String password="root";
+        String database="jee_db";
+        String username="jee";
+        String password="jee";
         String table="housing";
         // String host=initialContext.doLookup("java:comp/env/host");
         // String database=initialContext.doLookup("java:comp/env/database");

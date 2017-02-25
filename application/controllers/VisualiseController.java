@@ -12,12 +12,16 @@ import java.util.List;
 
 import persons.Person;
 import persons.PersonDB;
+import model.HousingOffer;
+import model.HousingOfferDB;
 
 @Controller
 public class VisualiseController {
 
     @Autowired
     private PersonDB personDB;
+    @Autowired
+    private HousingOfferDB housingOfferDB;
 
     @RequestMapping(value="/")
     public String welcome () {
@@ -47,6 +51,7 @@ public class VisualiseController {
 
     @RequestMapping(value="/accountManagement/{id}")
     public String accountManagement (@PathVariable("id") long id, HttpSession session, Model model) {
+        this.housingOfferDB.initialize();
 
         for (Person person: (List<Person>)session.getAttribute("allPersons")) {
             if (person.getId().equals(id)) {

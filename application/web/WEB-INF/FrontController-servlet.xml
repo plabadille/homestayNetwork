@@ -20,7 +20,7 @@
     </bean>
 
     <bean id="PersonDB" class="persons.PersonDB" />
-    <bean id="Person" class="persons.Person" />
+    <bean id="HousingOfferDB" class="model.HousingOfferDB" />
 
     <!-- Enables the Spring MVC @Controller programming model -->
     <mvc:annotation-driven />

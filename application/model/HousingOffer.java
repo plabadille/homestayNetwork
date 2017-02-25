@@ -101,11 +101,25 @@ public class HousingOffer {
         return this.idHousing;
     }
     /**
+     * Set the housing id
+     * @param <long> the owner id
+     */
+    public void setIdHousing(long idHousing) {
+        this.idHousing = idHousing;
+    }
+    /**
      * Return the id of the house owner
      * @return <long> owner id
      */
     public long getIdOwner() {
         return this.idOwner;
+    }
+    /**
+     * Set the owner id
+     * @param <long> the owner id
+     */
+    public void setIdOwner(long idOwner) {
+        this.idOwner = idOwner;
     }
     /**
      * Return the id of the house guest

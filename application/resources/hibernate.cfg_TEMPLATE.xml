@@ -18,6 +18,7 @@
         <property name="hbm2ddl.auto">update</property>
 
         <mapping resource="Person.hbm.xml" />
+        <mapping resource="HousingOffer.hbm.xml" />
 
     </session-factory>
 

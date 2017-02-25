@@ -15,8 +15,8 @@
     <c:otherwise>
       <form method="post" action="<c:url value='/addHousing' />">
         <p>
-          <div>Surface: <input type="number" min="0" value="${housing.surface}" name="surface" required></div>
-          <div>Nombre de pièces: <input type="number" min="0" value="${housing.nbRoom}" name="nbRoom" required></div>
+          <div>Surface: <input type="number" min="1" value="${housing.surface}" name="surface" required></div>
+          <div>Nombre de pièces: <input type="number" min="1" value="${housing.nbRoom}" name="nbRoom" required></div>
           <div>Surface du jardin: <input type="number" min="0" value="${!isApartment ? housing.gardenSurface : 0}" name="gardenSurface" required></div>
           <div>Appartement ? <input type="checkbox" name="isApartment" ${isApartment ? 'checked' : ''}></div>
           <div>Adresse: <input type="text" name="address" value="${housing.address}" required></div>

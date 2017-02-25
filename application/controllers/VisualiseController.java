@@ -53,6 +53,8 @@ public class VisualiseController {
     public String accountManagement (@PathVariable("id") long id, HttpSession session, Model model) {
         this.housingOfferDB.initialize();
 
+        model.addAttribute("housings", this.housingOfferDB.getAllUserHousing(id));
+
         for (Person person: (List<Person>)session.getAttribute("allPersons")) {
             if (person.getId().equals(id)) {
                 model.addAttribute("user",person);

@@ -53,7 +53,7 @@ public class SQLHousingDB implements IHousingDB {
         );
 
         this.retrieveAllHousingStatement = this.link.prepareStatement(
-            "SELECT * FROM " + this.table + " WHERE id=?"
+            "SELECT * FROM " + this.table + " WHERE address=?"
         );
 
         this.deleteHousingStatement = this.link.prepareStatement(
@@ -65,7 +65,7 @@ public class SQLHousingDB implements IHousingDB {
 
     @Override
     public boolean add(Home home) throws SQLException {
-        try {
+        if (find(home.getAddress()) == null) {
             this.createHousingStatement.setString(1, home.getCountry());
             this.createHousingStatement.setInt(2, home.getSurface());
             this.createHousingStatement.setInt(3, home.getNbRoom());
@@ -74,14 +74,13 @@ public class SQLHousingDB implements IHousingDB {
             this.createHousingStatement.setBoolean(6, false);
             this.createHousingStatement.execute();
             return true;
-        } catch (MySQLIntegrityConstraintViolationException e) {
-            return false;
         }
+        return false;
     }
 
     @Override
     public boolean add(Apartment apartment) throws SQLException {
-        try {
+        if (find(apartment.getAddress()) == null) {
             this.createHousingStatement.setString(1, apartment.getCountry());
             this.createHousingStatement.setInt(2, apartment.getSurface());
             this.createHousingStatement.setInt(3, apartment.getNbRoom());
@@ -90,9 +89,8 @@ public class SQLHousingDB implements IHousingDB {
             this.createHousingStatement.setBoolean(6, true);
             this.createHousingStatement.execute();
             return true;
-        } catch (MySQLIntegrityConstraintViolationException e) {
-            return false;
         }
+        return false;
     }
 
     @Override

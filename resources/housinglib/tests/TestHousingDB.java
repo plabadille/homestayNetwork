@@ -92,28 +92,26 @@ public class TestHousingDB {
 	//-------------
 	@Test
 	public void test_retrieveAllCountHouse() throws SQLException {
-        l.delete(new Home("France", 80, 5, "truc", 800));
+        l.delete(l.find("truc"));
 		int countInitHousing = l.getAll().size();
 		l.add(new Home("France", 80, 5, "truc", 800));
-		int countHousings = l.getAll().size();
 
-		assertEquals(countInitHousing + 1, countHousings);
+		assertEquals(countInitHousing + 1, l.getAll().size());
 	}
 
 	@Test
 	public void test_retrieveAllCountApartment() throws SQLException {
-        l.delete(new Apartment("France", 80, 5, "545f ez 1fez8 14f8zef1ez8f48 ze11 fez 1f8ze"));
+        l.delete(l.find("545f ez 1fez8 14f8zef1ez8f48 ze11 fez 1f8ze"));
 		int countInitHousing = l.getAll().size();
 		l.add(new Apartment("France", 80, 5, "545f ez 1fez8 14f8zef1ez8f48 ze11 fez 1f8ze"));
-		int countHousings = l.getAll().size();
 
-		assertEquals(countInitHousing + 1, countHousings);
+		assertEquals(countInitHousing + 1, l.getAll().size());
 	}
 
 	@Test
 	public void test_retrieveAllCountBoth() throws SQLException {
-        l.delete(new Home("France", 80, 5, "fez fez  787478 187fez78 1fz", 800));
-        l.delete(new Apartment("France", 80, 5, "561f89161 fze1 89f1ze 9181981"));
+        l.delete(l.find("fez fez  787478 187fez78 1fz"));
+        l.delete(l.find("561f89161 fze1 89f1ze 9181981"));
 		int countInitHousing = l.getAll().size();
 		l.add(new Home("France", 80, 5, "fez fez  787478 187fez78 1fz", 800));
 		l.add(new Apartment("France", 80, 5, "561f89161 fze1 89f1ze 9181981"));
@@ -147,18 +145,20 @@ public class TestHousingDB {
 	//-------------
 	@Test
 	public void test_deleteApartment() throws SQLException {
-		Apartment apartment = new Apartment("France", 80, 5, "fze 158935fz5ef82fze4fezf218fz8");
+		String address = "fze 158935fz5ef82fze4fezf218fz8";
+		Apartment apartment = new Apartment("France", 80, 5, address);
 		l.add(apartment);
-		l.delete(apartment);
-		assertEquals(null, l.find("fze 158935fz5ef82fze4fezf218fz8"));
+		l.delete(l.find(address));
+		assertEquals(null, l.find(address));
 	}
 
 	@Test
 	public void test_deleteHome() throws SQLException {
-		Home home = new Home("France", 80, 5, "45648g1re ger81ger1 8919g1erg", 800);
+		String address = "45648g1re ger81ger1 8919g1erg";
+		Home home = new Home("France", 80, 5, address, 800);
 		l.add(home);
-		l.delete(home);
-		assertEquals(null, l.find("45648g1re ger81ger1 8919g1erg"));
+		l.delete(l.find(address));
+		assertEquals(null, l.find(address));
 	}
 
 	@Test

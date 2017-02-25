@@ -45,7 +45,7 @@
       <c:if test="${!empty offers}">
         <ul>
           <c:forEach var="offer" items="${offers}">
-            <li>Du ${offer.beginDateObject} au ${offer.endDateObject}, statut: <c:out value="${offer.idGuest eq -1 ? 'libre': 'réservé'}"/> - <!-- <a href="<c:url value=" deleteUser?id=${person.id}" />">Détails</a> --></li>
+            <li>Du ${offer.beginDateObject} au ${offer.endDateObject}, statut: <c:out value="${offer.idGuest eq -1 ? 'libre': 'réservé'}"/> - <a href="<c:url value='/detailOffer/${offer.id.longValue()}'/>" >Détails</a></li>
           </c:forEach>
         </ul>
       </c:if>

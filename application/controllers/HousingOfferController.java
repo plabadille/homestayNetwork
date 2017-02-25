@@ -139,6 +139,14 @@ public class HousingOfferController {
         redirectAttributes.addFlashAttribute("message",message);
         return "redirect:/accountManagement/";
     }
+
+    /* BUG for unknow reason: org.apache.jasper.JasperException: java.lang.IllegalArgumentException: Cannot convert 965 896 985 654 793 of type class java.lang.Long to class java.lang.Boolean */
+    @RequestMapping(value={"/detailOffer/{id}"})
+    public String detailOffer (@PathVariable("id") long id, HttpSession session, Model model) throws Exception {
+        model.addAttribute("offer", this.housingOfferDB.find(id));
+        return "manageOffer";
+
+    }
     
     private long createTimestamp(String date) throws ParseException {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");

@@ -47,6 +47,7 @@ public class HousingOffer {
     public Long getId() {
         return id;
     }
+
     /**
      * Set the id of the housing offer (only use by hybernate)
      * @param <Long> id

@@ -51,7 +51,7 @@ public class HousingsController {
         this.housingOfferDB.initialize();
         this.housingOfferDB.create(new HousingOffer(housingId, userId));
 
-        return "redirect:/home";
+        return "redirect:/accountManagement";
     }
 
 
@@ -71,7 +71,7 @@ public class HousingsController {
             db.update(new Apartment(id, country, surface, nbRoom, address));
         }
 
-        return "redirect:/home";
+        return "redirect:/editHousing/" + id;
     }
 
     @RequestMapping(value={"/editHousing/{id}"})

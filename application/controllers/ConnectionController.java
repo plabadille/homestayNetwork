@@ -18,13 +18,13 @@ import persons.PersonDB;
 
 @Controller
 public class ConnectionController {
-    
+
     @Autowired
     private PersonDB personDB;
 
     @RequestMapping(value="/connexion", method=RequestMethod.POST)
     public String userConnection(@RequestParam Map<String,String> requestParams, HttpSession session, RedirectAttributes redirectAttributes) {
-        
+
         String email = requestParams.get("email");
         String password = requestParams.get("password");
 
@@ -37,7 +37,7 @@ public class ConnectionController {
                 if (this.personDB.isValid(email, password)) {
                     Person person = this.personDB.find(email);
                     Utils.connectUser(session, person);
-                    return "redirect:/accountManagement/" + person.getId();
+                    return "redirect:/accountManagement";
                 } else {
                     message="Votre mot de passe ou email est incorrect.";
                 }
@@ -65,7 +65,7 @@ public class ConnectionController {
 
     @RequestMapping(value="/adminConnexion", method=RequestMethod.POST)
     public String adminConnection(@RequestParam Map<String,String> requestParams, HttpSession session, RedirectAttributes redirectAttributes) {
-       
+
         String login = requestParams.get("login");
         String password = requestParams.get("password");
 
@@ -86,5 +86,5 @@ public class ConnectionController {
         return "redirect:/adminPanel";
     }
 
-   
+
 }

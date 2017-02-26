@@ -118,7 +118,7 @@ public class PersonsController {
         return "redirect:/accountManagement";
     }
 
-    @RequestMapping(value="/accountManagement/updatePassword", method=RequestMethod.POST)
+    @RequestMapping(value="/updatePassword", method=RequestMethod.POST)
     public String updatePassword(@RequestParam Map<String,String> requestParams, HttpSession session, RedirectAttributes redirectAttributes) {
 
         String password = requestParams.get("password");

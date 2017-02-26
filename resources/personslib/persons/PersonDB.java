@@ -178,11 +178,7 @@ public class PersonDB implements IPersonDB {
         } catch (Exception e){
             return false;
         }
-        //return true;
-        //TODO bug w/ md method
         boolean check = BCrypt.checkpw(password, person.getPassword());
-        System.out.println("hash "+ check);
-        System.out.println("userhash "+ person.getPassword());
         if (check)
           return true;
         else
@@ -198,8 +194,6 @@ public class PersonDB implements IPersonDB {
             return false;
         }
         boolean check = BCrypt.checkpw(password, person.getPassword());
-        System.out.println("hash "+ check);
-        System.out.println("userhash "+ person.getPassword());
          if (check)
            return true;
          else
@@ -243,7 +237,7 @@ public class PersonDB implements IPersonDB {
         try{
             if (personExist(email)) {
                 dbPerson = find(email);
-                dbPerson.setPassword(password);
+                dbPerson.updatePasswordRaw(password);
 
                 Session session=sessionFactory.openSession();
                 Transaction tx = session.beginTransaction();
@@ -260,7 +254,7 @@ public class PersonDB implements IPersonDB {
         try{
             if (personExist(id)) {
                 dbPerson = find(id);
-                dbPerson.setPassword(password);
+                dbPerson.updatePasswordRaw(password);
 
                 Session session=sessionFactory.openSession();
                 Transaction tx = session.beginTransaction();

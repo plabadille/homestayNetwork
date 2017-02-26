@@ -46,7 +46,6 @@ public class Person {
         this.name=name;
         this.firstName=firstName;
         this.email=email;
-        System.out.println("rawpass "+ rawPassword);
         this.password = BCrypt.hashpw(rawPassword,"$2a$10$uk.6XVzc.FdIAxBcvlOSquglioTN.0JUcqpp72BvY5Si.YMFRv0se");
     }
 
@@ -114,6 +113,10 @@ public class Person {
      */
     public void setPassword(String password){
       this.password = password;
+    }
+
+    public void updatePasswordRaw(String rawPassword) {
+        this.password = BCrypt.hashpw(rawPassword,"$2a$10$uk.6XVzc.FdIAxBcvlOSquglioTN.0JUcqpp72BvY5Si.YMFRv0se");
     }
 
     /**

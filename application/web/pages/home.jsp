@@ -12,7 +12,9 @@
   </c:if>
 
   <h2>Fonctionnement de l'application</h2>
-  <p>W.I.P</p>
+  <p>Vous devez être connecté pour pouvoir utiliser cette application. Vous pouvez créer un compte ci-dessous.</p>
+  <p>Avoir un compte vous permettra de saisir un ou plusieurs bien pour ensuite leurs associer des intervalles de temps ou vous êtes disposer à prêter votre habitation en votre absence.</p>
+  <p>Vous pouvez également utiliser la recherche par date et pays afin d'emprunter la maison d'un autre utilisateur ayant ajouté une offre.</p>
 
   <c:if test="${empty activeUser}">
     <h2>Créer un compte</h2>

@@ -182,4 +182,8 @@ public class HousingOffer {
         return (this.beginDate != -1 && this.idGuest != -1);
     }
 
+    public boolean getManageStatus() {
+        return (this.beginDate != -1); 
+    }
+
 }

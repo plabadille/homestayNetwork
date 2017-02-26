@@ -4,6 +4,9 @@ CONFIGURE GLASSFISH AND DOMAIN
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 
+--------------------------------------------
+WITHOUT global path asadmin
+--------------------------------------------
 https://glassfish.java.net/download.html
 Make sur the dependencies are installed
 
@@ -16,76 +19,49 @@ vim ~/.profile
 ajouter à la fin:
 export PATH=$HOME/Documents/glassfish4/bin:$PATH
 
-    Pour tester:
-    mkdir ~/Documents/sample-dir
-    placer hello.war (http://foad2.unicaen.fr/moodle/mod/resource/view.php?id=144594)
-
-    Deploy from comandline:
-    asadmin deploy ~/Documents/sample-domain/hello.war
-
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
+------------------------------------------
+UNIVERSITE
+------------------------------------------
+mkdir jee_domain && asadmin create-domain --domaindir jee_domain jee
+asadmin start-domain --domaindir jee_domain jee
 
 
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
---------------------------- Usefull asadmin command -----------------------------
+SETUP APP
 ---------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-asadmin start-domain
-asadmin stop-domain
-asadmin deploy appsPath (.war)
-asadmin undeploy war-name
-asadmin list-applications //To List Deployed Applications From the Command Line
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-CONFIGURE SERVER AND APPS (homestayNetwork/application)
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-clone the repository
------------------------
+---- Réccupération du projet ----
 git clone https://github.com/plabadille/homestayNetwork
-cd homestayNetwork/application && mkdir lib compileonlylib
 
-cd ../
-unzip homestayNetwork/projectNeeds.tar.tar.gz
-copy the content of homestayNetwork/projectNeeds/libs_compileOnlyFile in homestayNetwork/compileonlylib
+---> dans le même dossier que le dossier contenant le domaine
 
-add source to the domain:
--------------------------
-(the .jar have to be directly in lib folder):
-copy the content of homestayNetwork/projectNeeds/libs_compileOnlyFile in glassfish4/glassfish/domains/domain1/lib
-copy the content of homestayNetwork/projectNeeds/domainsLibs in glassfish4/glassfish/domains/domain1/lib
+---- Copie des dépendances ----
+cd homestayNetwork && mkdir application/lib application/compileonlylib
+tar xfvz projectNeeds.tar.tar.gz
+cp projectNeeds/libs_compileOnlyFile/* application/compileonlylib/
+cp projectNeeds/libs_compileOnlyFile/* ../jee_domain/jee/lib/
+cp projectNeeds/domainsLibs/* ../jee_domain/jee/lib/
+rm -rf projectNeeds
 
-Then clean: cd homestayNetwork/ && rm -rf projectNeeds
+---- Mise en place SQL ----
+Une database doit être préalablement créée ainsi qu'un user pouvant y avoir accès.
 
-config the xml of application:
--------------------
-cd homestayNetwork/application/ && cp build_TEMPLATE.xml build.xml
--> replace the elements in MAJ
+cd application/resources && cp hibernate.cfg_TEMPLATE.xml hibernate.cfg.xml
+cd resources/personslib/ && cp hibernate.cfg_TEMPLATE.xml hibernate.cfg.xml
+Et remplacer les éléments en majuscule dans les deux fichiers.
 
-change the database information:
-------------------
-cd homestayNetwork/application/ressources && cp hibernate.cfg_TEMPLATE.xml hibernate.cfg.xml
--> replace the elements in MAJ
+Puis remplacer les éléments ligne 56 dans le fichier:
+homestayNetwork/resources/housinglib/housings/HousingsDBHandler.java
 
-deploy the app:
-------------------
-cd homestayNetwork/application/
-ant deploy
+---- Deploy des lib ----
+cd resources/personslib/ && ant deploy
+cd ressources/housinglib/ && ant deploy
 
-Check if it work file:
-------------------
-http://localhost:8080/homestayNetwork/
+---- Config des XML ----
+cd application && cp build_TEMPLATE.xml build.xml
+Remplacer les éléments en majuscule en début de ligne
 
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
------- /!\ After modification always run : ant clear && ant deploy" /!\ ---------
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
+---- Deploy the app ----
+cd application/ && ant deploy

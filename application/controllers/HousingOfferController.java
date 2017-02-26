@@ -133,7 +133,7 @@ public class HousingOfferController {
 
         offer.setIdGuest(activeUser);
         this.housingOfferDB.update(offer);
-        String message="L'offre a bien été réservées";
+        String message="L'offre a bien été réservée";
 
         redirectAttributes.addFlashAttribute("message",message);
         return "redirect:/accountManagement/";

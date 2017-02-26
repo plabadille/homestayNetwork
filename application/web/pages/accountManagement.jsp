@@ -23,6 +23,7 @@
         <li>Nom: ${user.name}</li>
         <li>Email: ${user.email}</li>
       </ul>
+
       <hr/>
       <h2>Mes propriété(s):</h2>
       <c:choose>
@@ -33,6 +34,21 @@
           <ul>
             <c:forEach var="housing" items="${housings}">
               <li>${housing.address} - <a href="<c:url value="/editHousing/${housing.id}" />">Modifier</a></li>
+            </c:forEach>
+          </ul>
+        </c:otherwise>
+      </c:choose>
+
+      <hr/>
+      <h2>Mes Reservation(s):</h2>
+      <c:choose>
+        <c:when test="${empty reservations}">
+          <p>Il n'y a pour le moment aucune reservation d'enregistré.</p>
+        </c:when>
+        <c:otherwise>
+          <ul>
+            <c:forEach var="reservation" varStatus="loop" items="${reservations}">
+              <li>Du ${reservation.beginDateObject} au ${reservation.endDateObject}: ${reservedHousings[loop.index].address}</li>
             </c:forEach>
           </ul>
         </c:otherwise>

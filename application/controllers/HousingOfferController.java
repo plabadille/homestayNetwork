@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.text.ParseException; 
+import java.text.ParseException;
 
 import housings.Home;
 import housings.Apartment;
@@ -86,7 +86,7 @@ public class HousingOfferController {
         }
 
         redirectAttributes.addFlashAttribute("message",message);
-        return "redirect:/accountManagement/";
+        return "redirect:/editHousing/" + housingId;
 
     }
 
@@ -123,7 +123,6 @@ public class HousingOfferController {
         } else { //an admin moderate the offer
             return "redirect:/adminPanel";
         }
-        
     }
 
     @RequestMapping(value="bookOffer", method=RequestMethod.GET)
@@ -131,11 +130,11 @@ public class HousingOfferController {
         long activeUser = (long) Utils.getConnectedUser(session).getId();
 
         HousingOffer offer = this.housingOfferDB.find(idOffer);
-        
+
         offer.setIdGuest(activeUser);
         this.housingOfferDB.update(offer);
-        String message="L'offre a bien été supprimée";
-        
+        String message="L'offre a bien été réservées";
+
         redirectAttributes.addFlashAttribute("message",message);
         return "redirect:/accountManagement/";
     }
@@ -147,7 +146,7 @@ public class HousingOfferController {
         return "manageOffer";
 
     }
-    
+
     private long createTimestamp(String date) throws ParseException {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 

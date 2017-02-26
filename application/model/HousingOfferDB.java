@@ -1,6 +1,7 @@
 package model;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.hibernate.Session;
@@ -116,7 +117,38 @@ public class HousingOfferDB {
 
         try {
             Query query=session.createQuery("from HousingOffer");
-            Collection<HousingOffer> allHousing =(List<HousingOffer>)query.list();
+            Collection<HousingOffer> allHousing = query.list();
+
+            if (!allHousing.isEmpty()) {
+                for (HousingOffer housing : allHousing) {
+                    if (housing.isAvailable()) {
+                        allOffers.add(housing);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            session.close();
+        }
+        return allOffers;
+    }
+
+    /**
+     * Get all available offers
+     * @param country The country
+     * @param begin The begin timestamp
+     * @param end The end timestamp
+     * @param idOwner The owner id
+     * @return The collection of offers
+     */
+    public Collection<HousingOffer> getAllAvailableOffers(long begin, long end, long idOwner) {
+        Session session=sessionFactory.openSession();
+        Collection<HousingOffer> allOffers = new ArrayList<HousingOffer>();
+
+        try {
+            Query query=session.createQuery("FROM HousingOffer WHERE idOwner<>" + idOwner + " AND beginDate>=" + begin + " AND endDate<=" + end);
+            Collection<HousingOffer> allHousing = query.list();
 
             if (!allHousing.isEmpty()) {
                 for (HousingOffer housing : allHousing) {

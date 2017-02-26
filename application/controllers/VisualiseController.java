@@ -50,15 +50,6 @@ public class VisualiseController {
         return "adminPanel";
     }
 
-    @RequestMapping(value={"/searchProperty"})
-    public String searchProperty(HttpSession session) {
-        this.personDB.initialize();
-        this.housingOfferDB.initialize();
-        //TO DO: update model session storage (getAllAvailableOffers)
-        Utils.initializeSession(session,this.personDB);
-        return "searchProperty";
-    }
-
     @RequestMapping(value="/accountManagement")
     public String accountManagement(HttpSession session, Model model) throws Exception {
         long userId = Utils.getConnectedUser(session).getId();
@@ -74,7 +65,15 @@ public class VisualiseController {
                 housings.add(housing);
             }
         }
+
         model.addAttribute("housings", housings);
+        Collection<HousingOffer> reservations = this.housingOfferDB.getAllUserReservation(userId);
+        model.addAttribute("reservations", reservations);
+        Collection<Housing> reservedHousings = new ArrayList<Housing>();
+        for (HousingOffer reservation : reservations) {
+            reservedHousings.add(db.find(reservation.getIdHousing()));
+        }
+        model.addAttribute("reservedHousings", reservedHousings);
 
         for (Person person: (List<Person>)session.getAttribute("allPersons")) {
             if (person.getId().equals(userId)) {

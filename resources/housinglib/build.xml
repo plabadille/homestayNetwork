@@ -2,11 +2,11 @@
 <project name="housingLib" default="dist">
 
     <path id="junit">
-        <pathelement path="junit-4.10.jar"/>
+        <pathelement path="lib/junit-4.10.jar"/>
     </path>
 
     <path id="jdbc">
-        <pathelement path="mysql-connector-java-5.1.40-bin.jar"/>
+        <pathelement path="lib/mysql-connector-java-5.1.40-bin.jar"/>
     </path>
 
     <path id="combined">
